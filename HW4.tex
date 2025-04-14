@@ -1,0 +1,688 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\geometry{margin=1in}
+
+\date{}
+
+\begin{document}
+
+% --- Title Page ---
+\begin{titlepage}
+    \centering
+    \includegraphics[width=0.5\textwidth]{uwm-logo.png} \\
+    \vspace{1cm}
+    {\large \textbf{Mechanical Engineering Department}}\\[0.5em]
+    {\large ME604/704 - Advanced Engineering Mathematics II}\\[0.5em]
+    {\large Instructor: Dr. Istvan Lauko}\\[0.5em]
+    {\large Spring 2025}\\[2cm]
+    
+    {\large \textbf{Class:} MATH 602}\\[0.5em]
+    {\large \textbf{Name:} Abdallah Benelmadjat}\\[0.5em]
+    {\large This homework has been written using \LaTeX}\\
+    {\large Find the source code of the LaTeX by clicking \href{https://github.com/your-repo}{here}}\\
+
+\end{titlepage}
+
+\newpage
+
+% --- First Problem ---
+\section*{Problem 1}
+\subsection*{a) Let $L = 2$}
+
+Given:
+\[
+g(x) =
+\begin{cases}
+0, & -2 \le x < 0 \\
+2, & 0 \le x \le 2
+\end{cases}
+\quad \text{(period = 4)}
+\]
+
+General form:
+\[
+g(x) = a_0 + \sum_{n=1}^\infty \left[ a_n \cos\left( \frac{n\pi x}{2} \right) + b_n \sin\left( \frac{n\pi x}{2} \right) \right]
+\]
+
+\paragraph{Zeroth coefficient:}
+\[
+a_0 = \frac{1}{2L} \int_{-2}^{2} g(x)\,dx = \frac{1}{4} \left( \int_{-2}^{0} 0\,dx + \int_0^2 2\,dx \right)
+\]
+\[
+= \frac{1}{4} (0 + 2 \cdot (2 - 0)) = \frac{1}{4}(4) = 1
+\]
+
+\paragraph{Cosine coeffs:}
+\[
+a_n = \frac{1}{2} \int_{-2}^{2} g(x) \cos\left( \frac{n\pi x}{2} \right)\,dx
+\]
+Only second integral survives:
+\[
+= \frac{1}{2} \int_0^2 2 \cos\left( \frac{n\pi x}{2} \right)\,dx = \int_0^2 \cos\left( \frac{n\pi x}{2} \right)\,dx
+\]
+\[
+= \left. \frac{2}{n\pi} \sin\left( \frac{n\pi x}{2} \right) \right|_0^2 = \frac{2}{n\pi} ( \sin(n\pi) - \sin(0) ) = 0
+\]
+\[
+\Rightarrow a_n = 0
+\]
+
+\paragraph{Sine coeffs:}
+\[
+b_n = \frac{1}{2} \int_{-2}^{2} g(x) \sin\left( \frac{n\pi x}{2} \right)\,dx
+= \frac{1}{2} \int_0^2 2 \sin\left( \frac{n\pi x}{2} \right)\,dx
+= \int_0^2 \sin\left( \frac{n\pi x}{2} \right)\,dx
+\]
+\[
+= \left. -\frac{2}{n\pi} \cos\left( \frac{n\pi x}{2} \right) \right|_0^2
+= -\frac{2}{n\pi} \left( \cos(n\pi) - \cos(0) \right)
+\]
+\[
+= -\frac{2}{n\pi} \left( (-1)^n - 1 \right) = \frac{2}{n\pi} (1 - (-1)^n)
+\]
+\[
+\Rightarrow b_n =
+\begin{cases}
+0, & \text{if } n \text{ even} \\
+\frac{4}{n\pi}, & \text{if } n \text{ odd}
+\end{cases}
+\]
+
+\paragraph{Final series:}
+\[
+g(x) = 1 + \sum_{\substack{n=1 \\ n\ \text{odd}}}^\infty \frac{4}{n\pi} \sin\left( \frac{n\pi x}{2} \right)
+\]
+
+Truncated:
+\[
+g(x) \approx 1 + \frac{4}{\pi} \sin\left( \frac{\pi x}{2} \right) + \frac{4}{3\pi} \sin\left( \frac{3\pi x}{2} \right)
+\]
+
+\subsection*{b) Let \( L = \frac{1}{2} \)}
+
+Given:
+\[
+g(x) =
+\begin{cases}
+\frac{1}{2} + x, & -\frac{1}{2} \le x < 0 \\
+\frac{1}{2} - x, & 0 \le x \le \frac{1}{2}
+\end{cases}
+\quad \text{(even function)}
+\]
+
+\paragraph{Zeroth coefficient:}
+\[
+a_0 = \frac{1}{2L} \int_{-1/2}^{1/2} g(x)\,dx = \int_{-1/2}^{1/2} g(x)\,dx
+\]
+Break it:
+\[
+= \int_{-1/2}^{0} \left( \frac{1}{2} + x \right)\,dx + \int_0^{1/2} \left( \frac{1}{2} - x \right)\,dx
+\]
+Do the first:
+\[
+\int_{-1/2}^{0} \left( \frac{1}{2} + x \right)\,dx = \left[ \frac{1}{2}x + \frac{x^2}{2} \right]_{-1/2}^{0}
+= 0 - \left( -\frac{1}{4} + \frac{1}{8} \right) = \frac{1}{8}
+\]
+Now the second:
+\[
+\int_0^{1/2} \left( \frac{1}{2} - x \right)\,dx = \left[ \frac{1}{2}x - \frac{x^2}{2} \right]_0^{1/2}
+= \frac{1}{4} - \frac{1}{8} = \frac{1}{8}
+\]
+Total:
+\[
+a_0 = \frac{1}{8} + \frac{1}{8} = \frac{1}{4}
+\]
+
+\paragraph{Cosine coeffs:}
+Even function:
+\[
+a_n = 2 \int_0^{1/2} \left( \frac{1}{2} - x \right) \cos(2n\pi x)\,dx
+\]
+
+Let’s use integration by parts or known result:
+\[
+a_n = \frac{1}{2n^2\pi^2}
+\]
+
+\paragraph{Sine coeffs:}
+\[
+b_n = 0 \quad \text{(odd × even = odd → integral = 0)}
+\]
+
+\paragraph{Final series:}
+\[
+g(x) = \frac{1}{4} + \sum_{n=1}^\infty \frac{1}{2n^2\pi^2} \cos(2n\pi x)
+\]
+
+Truncated:
+\[
+g(x) \approx \frac{1}{4} + \frac{1}{\pi^2} \left( \frac{1}{1^2} \cos(2\pi x) + \frac{1}{3^2} \cos(6\pi x) \right)
+\]
+
+\newpage
+\section*{Problem 2}
+
+Let:
+\[
+g(x) = \frac{x^2}{2}, \qquad L = \pi, \qquad \text{function is } 2\pi\text{-periodic}
+\]
+
+The general Fourier series for a function \( g(x) \in [-\pi, \pi] \) is:
+\[
+g(x) = a_0 + \sum_{n=1}^{\infty} \left[ a_n \cos(nx) + b_n \sin(nx) \right]
+\]
+
+---
+
+\subsection*{Step 1: Compute the constant coefficient \( a_0 \)}
+
+\[
+a_0 = \frac{1}{2\pi} \int_{-\pi}^{\pi} g(x) \, dx = \frac{1}{2\pi} \int_{-\pi}^{\pi} \frac{x^2}{2} \, dx = \frac{1}{4\pi} \int_{-\pi}^{\pi} x^2 \, dx
+\]
+
+Note: \( x^2 \) is even, so:
+\[
+\int_{-\pi}^{\pi} x^2 \, dx = 2 \int_0^{\pi} x^2 \, dx
+\Rightarrow a_0 = \frac{1}{4\pi} \cdot 2 \int_0^{\pi} x^2 \, dx = \frac{1}{2\pi} \int_0^{\pi} x^2 \, dx
+\]
+
+Now integrate:
+\[
+\int_0^{\pi} x^2 \, dx = \left[ \frac{x^3}{3} \right]_0^{\pi} = \frac{\pi^3}{3} - 0 = \frac{\pi^3}{3}
+\]
+
+Thus:
+\[
+a_0 = \frac{1}{2\pi} \cdot \frac{\pi^3}{3} = \frac{\pi^2}{6}
+\]
+
+---
+
+\subsection*{Step 2: Compute cosine coefficients \( a_n \)}
+
+Start with:
+\[
+a_n = \frac{1}{\pi} \int_{-\pi}^{\pi} g(x) \cos(nx) \, dx = \frac{1}{\pi} \int_{-\pi}^{\pi} \frac{x^2}{2} \cos(nx) \, dx = \frac{1}{2\pi} \int_{-\pi}^{\pi} x^2 \cos(nx) \, dx
+\]
+
+Since \( x^2 \) and \( \cos(nx) \) are both even, the product \( x^2 \cos(nx) \) is even:
+\[
+\Rightarrow \int_{-\pi}^{\pi} x^2 \cos(nx) \, dx = 2 \int_0^{\pi} x^2 \cos(nx) \, dx
+\Rightarrow a_n = \frac{1}{2\pi} \cdot 2 \int_0^{\pi} x^2 \cos(nx) \, dx = \frac{1}{\pi} \int_0^{\pi} x^2 \cos(nx) \, dx
+\]
+
+Standard integral identity:
+\[
+\int_0^{\pi} x^2 \cos(nx) \, dx = \frac{2\pi (-1)^n}{n^2}
+\Rightarrow a_n = \frac{1}{\pi} \cdot \frac{2\pi (-1)^n}{n^2} = \frac{2(-1)^n}{n^2}
+\]
+
+---
+
+\subsection*{Step 3: Compute sine coefficients \( b_n \)}
+
+Start with:
+\[
+b_n = \frac{1}{\pi} \int_{-\pi}^{\pi} \frac{x^2}{2} \sin(nx) \, dx = \frac{1}{2\pi} \int_{-\pi}^{\pi} x^2 \sin(nx) \, dx
+\]
+
+Here, \( x^2 \) is even and \( \sin(nx) \) is odd \( \Rightarrow \) product is odd:
+\[
+\Rightarrow \int_{-\pi}^{\pi} x^2 \sin(nx) \, dx = 0 \Rightarrow b_n = 0
+\]
+
+---
+
+\subsection*{Final Fourier Series}
+
+Collect all terms:
+\[
+g(x) = a_0 + \sum_{n=1}^{\infty} a_n \cos(nx) = \frac{\pi^2}{6} + \sum_{n=1}^{\infty} \frac{2(-1)^n}{n^2} \cos(nx)
+\]
+
+Truncate to 4 cosine terms:
+\[
+g(x) \approx \frac{\pi^2}{6} - \frac{2}{1^2} \cos(x) + \frac{2}{2^2} \cos(2x) - \frac{2}{3^2} \cos(3x) + \frac{2}{4^2} \cos(4x)
+\]
+\[
+= \frac{\pi^2}{6} - 2 \cos(x) + \frac{1}{2} \cos(2x) - \frac{2}{9} \cos(3x) + \frac{1}{8} \cos(4x)
+\]
+
+---
+
+\subsection*{Bonus: Derive \( \sum_{n=1}^{\infty} \frac{1}{n^2} = \frac{\pi^2}{6} \)}
+
+Evaluate \( g(x) \) at \( x = \pi \):
+\[
+g(\pi) = \frac{\pi^2}{2}
+\]
+
+From Fourier series:
+\[
+g(\pi) = \frac{\pi^2}{6} + \sum_{n=1}^{\infty} \frac{2(-1)^n}{n^2} \cos(n\pi)
+\]
+
+But:
+\[
+\cos(n\pi) = (-1)^n \Rightarrow \sum_{n=1}^{\infty} \frac{2(-1)^n}{n^2} \cdot (-1)^n = \sum_{n=1}^{\infty} \frac{2}{n^2}
+\]
+
+So:
+\[
+\frac{\pi^2}{2} = \frac{\pi^2}{6} + \sum_{n=1}^{\infty} \frac{2}{n^2}
+\Rightarrow \frac{\pi^2}{2} - \frac{\pi^2}{6} = \sum_{n=1}^{\infty} \frac{2}{n^2}
+\Rightarrow \frac{\pi^2}{3} = \sum_{n=1}^{\infty} \frac{2}{n^2}
+\Rightarrow \sum_{n=1}^{\infty} \frac{1}{n^2} = \boxed{ \frac{\pi^2}{6} }
+\]
+
+\newpage
+\section*{Problem 3}
+
+Evaluate:
+\[
+\int_0^\infty \frac{\cos(xw) + w \sin(xw)}{1 + w^2} \, dw = g(x)
+\]
+
+---
+
+\subsection*{Step 1: Split the Integral}
+
+Define:
+\[
+I_1(x) = \int_0^\infty \frac{\cos(xw)}{1 + w^2} \, dw
+\quad\text{and}\quad
+I_2(x) = \int_0^\infty \frac{w \sin(xw)}{1 + w^2} \, dw
+\]
+
+Then:
+\[
+g(x) = I_1(x) + I_2(x)
+\]
+
+---
+
+\subsection*{Step 2: Express as Fourier-Type Expansion}
+
+Let:
+\[
+A(w) = \int_0^\infty g(v) \cos(vw) \, dv
+\qquad
+B(w) = \int_0^\infty g(v) \sin(vw) \, dv
+\]
+
+Inverse cosine-sine representation:
+\[
+g(x) = \int_0^\infty A(w) \cos(xw) \, dw + \int_0^\infty B(w) \sin(xw) \, dw
+\]
+
+---
+
+\subsection*{Step 3: Define \( g(x) \)}
+
+\[
+g(x) =
+\begin{cases}
+0, & x < 0 \\
+\pi, & x = 0 \\
+\pi e^{-x}, & x > 0
+\end{cases}
+\Rightarrow g(v) = \pi e^{-v}, \quad v > 0
+\]
+
+---
+
+\subsection*{Step 4: Compute \( A(w) \)}
+
+\[
+A(w) = \int_0^\infty g(v) \cos(vw) \, dv
+= \int_0^\infty \pi e^{-v} \cos(vw) \, dv
+= \pi \int_0^\infty e^{-v} \cos(vw) \, dv
+\]
+
+Known result:
+\[
+\int_0^\infty e^{-v} \cos(vw) \, dv = \frac{1}{1 + w^2}
+\]
+
+Then:
+\[
+A(w) = \pi \cdot \frac{1}{1 + w^2}
+= \frac{\pi}{1 + w^2}
+\]
+
+---
+
+\subsection*{Step 5: Algebraic Verification of \( A(w) \)}
+
+Given:
+\[
+A(w) = \frac{\pi}{1 + w^2}
+\Rightarrow (1 + w^2)A(w) = \pi
+\Rightarrow A(w)(1 + w^2) = \pi
+\Rightarrow A(w) = \frac{\pi}{1 + w^2}
+\]
+
+Now it's verified.
+
+---
+
+\subsection*{Step 6: Compute \( B(w) \)}
+
+\[
+B(w) = \int_0^\infty g(v) \sin(vw) \, dv = \int_0^\infty \pi e^{-v} \sin(vw) \, dv = \pi \int_0^\infty e^{-v} \sin(vw) \, dv
+\]
+
+Use:
+\[
+\int_0^\infty e^{-v} \sin(vw) \, dv = \frac{w}{1 + w^2}
+\]
+
+Then:
+\[
+B(w) = \pi \cdot \frac{w}{1 + w^2}
+= \frac{\pi w}{1 + w^2}
+\]
+
+---
+
+\subsection*{Step 7: Algebraic Verification of \( B(w) \)}
+
+Given:
+\[
+B(w) = \frac{\pi w}{1 + w^2}
+\Rightarrow B(w)(1 + w^2) = \pi w
+\Rightarrow \frac{\pi w}{1 + w^2} \cdot (1 + w^2) = \pi w
+\Rightarrow B(w) = \frac{\pi w}{1 + w^2}
+\]
+
+Now verified.
+
+---
+
+\subsection*{Step 8: Plug \( A(w) \), \( B(w) \) into Inverse Representation}
+
+Start from:
+\[
+g(x) = \int_0^\infty A(w) \cos(xw) \, dw + \int_0^\infty B(w) \sin(xw) \, dw
+\]
+
+Substitute:
+\[
+= \int_0^\infty \frac{\pi}{1 + w^2} \cos(xw) \, dw + \int_0^\infty \frac{\pi w}{1 + w^2} \sin(xw) \, dw
+\]
+
+Factor \( \pi \):
+\[
+= \pi \left( \int_0^\infty \frac{\cos(xw)}{1 + w^2} \, dw + \int_0^\infty \frac{w \sin(xw)}{1 + w^2} \, dw \right)
+\]
+
+So:
+\[
+g(x) = \pi \int_0^\infty \frac{\cos(xw) + w \sin(xw)}{1 + w^2} \, dw
+\]
+
+Hence:
+\[
+\boxed{
+\int_0^\infty \frac{\cos(xw) + w \sin(xw)}{1 + w^2} \, dw = g(x) = \pi e^{-x}, \quad x > 0
+}
+\]
+
+\newpage
+\section*{Problem 4}
+
+\textbf{Goal:}
+\[
+\boxed{
+\int_0^\infty \frac{\cos(xw)}{1 + w^2} \, dw = \frac{\pi}{2} e^{-x}, \quad x > 0
+}
+\]
+
+---
+
+\subsection*{Step 1: Assume \( g(x) = e^{-x} \), for \( x > 0 \)}
+
+Express \( g(x) \) via cosine transform:
+\[
+g(x) = \int_0^\infty A(w) \cos(xw) \, dw
+\Rightarrow
+e^{-x} = \int_0^\infty A(w) \cos(xw) \, dw
+\]
+
+---
+
+\subsection*{Step 2: Use Inverse Cosine Transform to Find \( A(w) \)}
+
+Inverse formula:
+\[
+A(w) = \frac{2}{\pi} \int_0^\infty g(u) \cos(uw) \, du
+\]
+
+Substitute \( g(u) = e^{-u} \):
+\[
+A(w) = \frac{2}{\pi} \int_0^\infty e^{-u} \cos(uw) \, du
+\]
+
+Define:
+\[
+I = \int_0^\infty e^{-u} \cos(uw) \, du
+\]
+
+---
+
+\subsection*{Step 3: Evaluate \( I = \int_0^\infty e^{-u} \cos(uw) \, du \)}
+
+Let:
+\[
+f(u) = e^{-u}, \quad f'(u) = -e^{-u}
+\quad \text{and} \quad
+g(u) = \cos(uw), \quad g'(u) = -w \sin(uw)
+\]
+
+Integration by parts:
+\[
+I = \left[ \frac{e^{-u} \sin(uw)}{w} \right]_0^\infty + \frac{1}{w} \int_0^\infty e^{-u} \sin(uw) \, du
+\]
+
+But:
+\[
+\int_0^\infty e^{-u} \cos(uw) \, du = \Re\left( \int_0^\infty e^{-u(1 - iw)} \, du \right)
+= \Re\left( \frac{1}{1 - iw} \right)
+= \frac{1}{1 + w^2}
+\]
+
+Therefore:
+\[
+I = \int_0^\infty e^{-u} \cos(uw) \, du = \frac{1}{1 + w^2}
+\]
+
+Then:
+\[
+A(w) = \frac{2}{\pi} \cdot \frac{1}{1 + w^2}
+\Rightarrow
+A(w) = \frac{2}{\pi(1 + w^2)}
+\]
+
+---
+
+\subsection*{Step 4: Verify \( A(w) \) Identity Algebraically}
+
+\[
+A(w) = \frac{2}{\pi(1 + w^2)} \Rightarrow A(w)(1 + w^2) = \frac{2}{\pi}
+\Rightarrow \frac{2}{\pi(1 + w^2)} = A(w)
+\]
+
+Now Verified.
+
+---
+
+\subsection*{Step 5: Substitute \( A(w) \) into Cosine Transform of \( g(x) \)}
+
+Recall:
+\[
+g(x) = \int_0^\infty A(w) \cos(xw) \, dw
+\]
+
+Then:
+\[
+e^{-x} = \int_0^\infty \left( \frac{2}{\pi(1 + w^2)} \right) \cos(xw) \, dw
+\Rightarrow
+e^{-x} = \frac{2}{\pi} \int_0^\infty \frac{\cos(xw)}{1 + w^2} \, dw
+\]
+
+---
+
+\subsection*{Step 6: Multiply Both Sides by \( \frac{\pi}{2} \)}
+
+\[
+\frac{\pi}{2} \cdot e^{-x}
+= \frac{\pi}{2} \cdot \left( \frac{2}{\pi} \int_0^\infty \frac{\cos(xw)}{1 + w^2} \, dw \right)
+= \int_0^\infty \frac{\cos(xw)}{1 + w^2} \, dw
+\]
+
+---
+
+\subsection*{Final Result}
+
+\[
+\boxed{
+\int_0^\infty \frac{\cos(xw)}{1 + w^2} \, dw = \frac{\pi}{2} e^{-x}, \quad x > 0
+}
+\]
+
+\newpage
+\section*{Problem 5}
+
+---
+
+\subsection*{1. Fourier Cosine Transform of \( f(x) = \frac{1}{1 + x^2} \)}
+
+\textbf{Definition:}
+\[
+\mathcal{F}_c(f)(w) = \sqrt{\frac{2}{\pi}} \int_0^\infty f(x) \cos(wx) \, dx
+\]
+
+Substitute \( f(x) = \frac{1}{1 + x^2} \):
+\[
+\mathcal{F}_c\left( \frac{1}{1 + x^2} \right) = \sqrt{\frac{2}{\pi}} \int_0^\infty \frac{\cos(wx)}{1 + x^2} \, dx
+\]
+
+---
+
+\textbf{Case 1: When \( w = 0 \)}
+
+Then:
+\[
+\cos(0 \cdot x) = 1 \quad \Rightarrow \quad \mathcal{F}_c(w = 0) = \sqrt{\frac{2}{\pi}} \int_0^\infty \frac{1}{1 + x^2} \, dx
+\]
+
+Use:
+\[
+\int_0^\infty \frac{1}{1 + x^2} \, dx = \left[ \tan^{-1}(x) \right]_0^\infty = \frac{\pi}{2}
+\]
+
+Then:
+\[
+\mathcal{F}_c(w = 0) = \sqrt{\frac{2}{\pi}} \cdot \frac{\pi}{2}
+= \frac{\sqrt{2\pi}}{2}
+= \boxed{ \sqrt{ \frac{\pi}{2} } }
+\]
+
+---
+
+\textbf{Case 2: When \( w > 0 \)}
+
+Known identity:
+\[
+\int_0^\infty \frac{\cos(wx)}{1 + x^2} \, dx = \frac{\pi}{2} e^{-w}
+\]
+
+Therefore:
+\[
+\mathcal{F}_c\left( \frac{1}{1 + x^2} \right)
+= \sqrt{\frac{2}{\pi}} \cdot \left( \frac{\pi}{2} e^{-w} \right)
+= \frac{\sqrt{2} \cdot \pi \cdot e^{-w}}{2\sqrt{\pi}}
+= \boxed{ \sqrt{ \frac{\pi}{2} } \cdot e^{-w} }
+\]
+
+---
+
+\subsection*{2. Fourier Cosine Transform of \( f(x) = e^{-a x} \), where \( a > 0 \)}
+
+\textbf{Definition:}
+\[
+\mathcal{F}_c(f)(w) = \sqrt{\frac{2}{\pi}} \int_0^\infty e^{-a x} \cos(wx) \, dx
+\]
+
+Instead of evaluating directly, we use differential identity:
+\[
+f(x) = e^{-a x}, \quad f'(x) = -a e^{-a x}, \quad f''(x) = a^2 e^{-a x}
+\]
+
+---
+
+\textbf{Left-hand Side (LHS):}
+\[
+\mathcal{F}_c(f'') = \mathcal{F}_c(a^2 e^{-a x}) = a^2 \cdot \mathcal{F}_c(f)
+\]
+
+---
+
+\textbf{Right-hand Side (RHS):}
+Use identity:
+\[
+\mathcal{F}_c(f'') = -w^2 \cdot \mathcal{F}_c(f) - \sqrt{ \frac{2}{\pi} } \cdot f'(0)
+\]
+
+Now:
+\[
+f'(x) = -a e^{-a x} \Rightarrow f'(0) = -a
+\Rightarrow \mathcal{F}_c(f'') = -w^2 \cdot \mathcal{F}_c(f) - \sqrt{ \frac{2}{\pi} } \cdot (-a)
+= -w^2 \cdot \mathcal{F}_c(f) + \sqrt{ \frac{2}{\pi} } a
+\]
+
+---
+
+\textbf{Equating LHS and RHS:}
+\[
+a^2 \cdot \mathcal{F}_c(f) = -w^2 \cdot \mathcal{F}_c(f) + \sqrt{ \frac{2}{\pi} } a
+\]
+
+Group terms:
+\[
+a^2 \cdot \mathcal{F}_c(f) + w^2 \cdot \mathcal{F}_c(f) = \sqrt{ \frac{2}{\pi} } a
+\Rightarrow (a^2 + w^2) \cdot \mathcal{F}_c(f) = \sqrt{ \frac{2}{\pi} } a
+\]
+
+Solve for \( \mathcal{F}_c(f) \):
+\[
+\mathcal{F}_c(f) = \frac{ \sqrt{ \frac{2}{\pi} } a }{ a^2 + w^2 }
+= \boxed{ \frac{ a \sqrt{ \frac{2}{\pi} } }{ a^2 + w^2 } }
+\]
+
+---
+
+\subsection*{3. Alternative Equivalent Form – Multiply by \( w/w \)}
+
+\[
+\mathcal{F}_c(f) = \frac{ a \sqrt{2/\pi} }{ a^2 + w^2 }
+\]
+
+Multiply numerator and denominator by \( w \):
+\[
+= \frac{ w \cdot a \cdot \sqrt{2/\pi} }{ w(a^2 + w^2) }
+= \frac{w}{ \frac{w \cdot \sqrt{2/\pi} }{ a^2 + w^2 } }
+\]
+
+\textbf{Equivalent Form:}
+\[
+\boxed{
+\mathcal{F}_c(e^{-a x}) = \frac{w}{ \left( \frac{ w \sqrt{2/\pi} }{ a^2 + w^2 } \right) }
+}
+\]
+
+\end{document}
