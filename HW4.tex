@@ -4,13 +4,13 @@
 \usepackage{geometry}
 \usepackage{graphicx}
 \usepackage{hyperref}
+\usepackage{xcolor}
 \geometry{margin=1in}
 
 \date{}
 
 \begin{document}
 
-% --- Title Page ---
 \begin{titlepage}
     \centering
     \includegraphics[width=0.5\textwidth]{uwm-logo.png} \\
@@ -23,7 +23,7 @@
     {\large \textbf{Class:} MATH 602}\\[0.5em]
     {\large \textbf{Name:} Abdallah Benelmadjat}\\[0.5em]
     {\large This homework has been written using \LaTeX}\\
-    {\large Find the source code of the LaTeX by clicking \href{https://github.com/your-repo}{here}}\\
+    {\large Find the LaTeX GitHub source code by clicking \href{https://github.com/abdallah-benelmadjat/MATH-602/blob/main/HW4.tex}{\textcolor{blue}{here}}}\\
 
 \end{titlepage}
 
@@ -118,11 +118,11 @@ g(x) =
 \[
 a_0 = \frac{1}{2L} \int_{-1/2}^{1/2} g(x)\,dx = \int_{-1/2}^{1/2} g(x)\,dx
 \]
-Break it:
+We break it:
 \[
 = \int_{-1/2}^{0} \left( \frac{1}{2} + x \right)\,dx + \int_0^{1/2} \left( \frac{1}{2} - x \right)\,dx
 \]
-Do the first:
+We do the first:
 \[
 \int_{-1/2}^{0} \left( \frac{1}{2} + x \right)\,dx = \left[ \frac{1}{2}x + \frac{x^2}{2} \right]_{-1/2}^{0}
 = 0 - \left( -\frac{1}{4} + \frac{1}{8} \right) = \frac{1}{8}
@@ -143,7 +143,7 @@ Even function:
 a_n = 2 \int_0^{1/2} \left( \frac{1}{2} - x \right) \cos(2n\pi x)\,dx
 \]
 
-Let’s use integration by parts or known result:
+We use integration by parts or known result:
 \[
 a_n = \frac{1}{2n^2\pi^2}
 \]
@@ -178,7 +178,7 @@ g(x) = a_0 + \sum_{n=1}^{\infty} \left[ a_n \cos(nx) + b_n \sin(nx) \right]
 
 ---
 
-\subsection*{Step 1: Compute the constant coefficient \( a_0 \)}
+\subsection*{We find the constant coefficient \( a_0 \)}
 
 \[
 a_0 = \frac{1}{2\pi} \int_{-\pi}^{\pi} g(x) \, dx = \frac{1}{2\pi} \int_{-\pi}^{\pi} \frac{x^2}{2} \, dx = \frac{1}{4\pi} \int_{-\pi}^{\pi} x^2 \, dx
@@ -190,7 +190,7 @@ Note: \( x^2 \) is even, so:
 \Rightarrow a_0 = \frac{1}{4\pi} \cdot 2 \int_0^{\pi} x^2 \, dx = \frac{1}{2\pi} \int_0^{\pi} x^2 \, dx
 \]
 
-Now integrate:
+Now we integrate:
 \[
 \int_0^{\pi} x^2 \, dx = \left[ \frac{x^3}{3} \right]_0^{\pi} = \frac{\pi^3}{3} - 0 = \frac{\pi^3}{3}
 \]
@@ -202,9 +202,9 @@ a_0 = \frac{1}{2\pi} \cdot \frac{\pi^3}{3} = \frac{\pi^2}{6}
 
 ---
 
-\subsection*{Step 2: Compute cosine coefficients \( a_n \)}
+\subsection*{We find cosine coefficients \( a_n \)}
 
-Start with:
+We start with:
 \[
 a_n = \frac{1}{\pi} \int_{-\pi}^{\pi} g(x) \cos(nx) \, dx = \frac{1}{\pi} \int_{-\pi}^{\pi} \frac{x^2}{2} \cos(nx) \, dx = \frac{1}{2\pi} \int_{-\pi}^{\pi} x^2 \cos(nx) \, dx
 \]
@@ -223,7 +223,7 @@ Standard integral identity:
 
 ---
 
-\subsection*{Step 3: Compute sine coefficients \( b_n \)}
+\subsection*{We find sine coefficients \( b_n \)}
 
 Start with:
 \[
@@ -239,12 +239,12 @@ Here, \( x^2 \) is even and \( \sin(nx) \) is odd \( \Rightarrow \) product is o
 
 \subsection*{Final Fourier Series}
 
-Collect all terms:
+We collect all terms:
 \[
 g(x) = a_0 + \sum_{n=1}^{\infty} a_n \cos(nx) = \frac{\pi^2}{6} + \sum_{n=1}^{\infty} \frac{2(-1)^n}{n^2} \cos(nx)
 \]
 
-Truncate to 4 cosine terms:
+We truncate to 4 cosine terms:
 \[
 g(x) \approx \frac{\pi^2}{6} - \frac{2}{1^2} \cos(x) + \frac{2}{2^2} \cos(2x) - \frac{2}{3^2} \cos(3x) + \frac{2}{4^2} \cos(4x)
 \]
@@ -255,8 +255,7 @@ g(x) \approx \frac{\pi^2}{6} - \frac{2}{1^2} \cos(x) + \frac{2}{2^2} \cos(2x) - 
 ---
 
 \subsection*{Bonus: Derive \( \sum_{n=1}^{\infty} \frac{1}{n^2} = \frac{\pi^2}{6} \)}
-
-Evaluate \( g(x) \) at \( x = \pi \):
+Evaluating \( g(x) \) at \( x = \pi \):
 \[
 g(\pi) = \frac{\pi^2}{2}
 \]
@@ -289,9 +288,9 @@ Evaluate:
 
 ---
 
-\subsection*{Step 1: Split the Integral}
+\subsection*{We split the Integral}
 
-Define:
+We define:
 \[
 I_1(x) = \int_0^\infty \frac{\cos(xw)}{1 + w^2} \, dw
 \quad\text{and}\quad
@@ -305,7 +304,7 @@ g(x) = I_1(x) + I_2(x)
 
 ---
 
-\subsection*{Step 2: Express as Fourier-Type Expansion}
+\subsection*{We express as Fourier-Type Expansion}
 
 Let:
 \[
@@ -321,7 +320,7 @@ g(x) = \int_0^\infty A(w) \cos(xw) \, dw + \int_0^\infty B(w) \sin(xw) \, dw
 
 ---
 
-\subsection*{Step 3: Define \( g(x) \)}
+\subsection*{We define \( g(x) \)}
 
 \[
 g(x) =
@@ -335,7 +334,7 @@ g(x) =
 
 ---
 
-\subsection*{Step 4: Compute \( A(w) \)}
+\subsection*{We find \( A(w) \)}
 
 \[
 A(w) = \int_0^\infty g(v) \cos(vw) \, dv
@@ -356,7 +355,7 @@ A(w) = \pi \cdot \frac{1}{1 + w^2}
 
 ---
 
-\subsection*{Step 5: Algebraic Verification of \( A(w) \)}
+\subsection*{So, doing algebraic cerification of \( A(w) \)}
 
 Given:
 \[
@@ -370,7 +369,7 @@ Now it's verified.
 
 ---
 
-\subsection*{Step 6: Compute \( B(w) \)}
+\subsection*{We find \( B(w) \)}
 
 \[
 B(w) = \int_0^\infty g(v) \sin(vw) \, dv = \int_0^\infty \pi e^{-v} \sin(vw) \, dv = \pi \int_0^\infty e^{-v} \sin(vw) \, dv
@@ -389,7 +388,7 @@ B(w) = \pi \cdot \frac{w}{1 + w^2}
 
 ---
 
-\subsection*{Step 7: Algebraic Verification of \( B(w) \)}
+\subsection*{Same, now algebraic verification of \( B(w) \)}
 
 Given:
 \[
@@ -399,18 +398,18 @@ B(w) = \frac{\pi w}{1 + w^2}
 \Rightarrow B(w) = \frac{\pi w}{1 + w^2}
 \]
 
-Now verified.
+It's verified.
 
 ---
 
 \subsection*{Step 8: Plug \( A(w) \), \( B(w) \) into Inverse Representation}
 
-Start from:
+We start from:
 \[
 g(x) = \int_0^\infty A(w) \cos(xw) \, dw + \int_0^\infty B(w) \sin(xw) \, dw
 \]
 
-Substitute:
+We substitute:
 \[
 = \int_0^\infty \frac{\pi}{1 + w^2} \cos(xw) \, dw + \int_0^\infty \frac{\pi w}{1 + w^2} \sin(xw) \, dw
 \]
@@ -425,7 +424,7 @@ So:
 g(x) = \pi \int_0^\infty \frac{\cos(xw) + w \sin(xw)}{1 + w^2} \, dw
 \]
 
-Hence:
+Thus:
 \[
 \boxed{
 \int_0^\infty \frac{\cos(xw) + w \sin(xw)}{1 + w^2} \, dw = g(x) = \pi e^{-x}, \quad x > 0
@@ -444,7 +443,7 @@ Hence:
 
 ---
 
-\subsection*{Step 1: Assume \( g(x) = e^{-x} \), for \( x > 0 \)}
+\subsection*{We assume \( g(x) = e^{-x} \), for \( x > 0 \)}
 
 Express \( g(x) \) via cosine transform:
 \[
@@ -474,7 +473,7 @@ I = \int_0^\infty e^{-u} \cos(uw) \, du
 
 ---
 
-\subsection*{Step 3: Evaluate \( I = \int_0^\infty e^{-u} \cos(uw) \, du \)}
+\subsection*{We evaluate \( I = \int_0^\infty e^{-u} \cos(uw) \, du \)}
 
 Let:
 \[
@@ -509,7 +508,7 @@ A(w) = \frac{2}{\pi(1 + w^2)}
 
 ---
 
-\subsection*{Step 4: Verify \( A(w) \) Identity Algebraically}
+\subsection*{We verify \( A(w) \) identity algebraically}
 
 \[
 A(w) = \frac{2}{\pi(1 + w^2)} \Rightarrow A(w)(1 + w^2) = \frac{2}{\pi}
@@ -520,7 +519,7 @@ Now Verified.
 
 ---
 
-\subsection*{Step 5: Substitute \( A(w) \) into Cosine Transform of \( g(x) \)}
+\subsection*{We substitute \( A(w) \) into Cosine Transform of \( g(x) \)}
 
 Recall:
 \[
@@ -536,7 +535,7 @@ e^{-x} = \frac{2}{\pi} \int_0^\infty \frac{\cos(xw)}{1 + w^2} \, dw
 
 ---
 
-\subsection*{Step 6: Multiply Both Sides by \( \frac{\pi}{2} \)}
+\subsection*{We multiply Both Sides by \( \frac{\pi}{2} \)}
 
 \[
 \frac{\pi}{2} \cdot e^{-x}
@@ -566,7 +565,7 @@ e^{-x} = \frac{2}{\pi} \int_0^\infty \frac{\cos(xw)}{1 + w^2} \, dw
 \mathcal{F}_c(f)(w) = \sqrt{\frac{2}{\pi}} \int_0^\infty f(x) \cos(wx) \, dx
 \]
 
-Substitute \( f(x) = \frac{1}{1 + x^2} \):
+We substitute \( f(x) = \frac{1}{1 + x^2} \):
 \[
 \mathcal{F}_c\left( \frac{1}{1 + x^2} \right) = \sqrt{\frac{2}{\pi}} \int_0^\infty \frac{\cos(wx)}{1 + x^2} \, dx
 \]
@@ -658,7 +657,7 @@ a^2 \cdot \mathcal{F}_c(f) + w^2 \cdot \mathcal{F}_c(f) = \sqrt{ \frac{2}{\pi} }
 \Rightarrow (a^2 + w^2) \cdot \mathcal{F}_c(f) = \sqrt{ \frac{2}{\pi} } a
 \]
 
-Solve for \( \mathcal{F}_c(f) \):
+So, we solve for \( \mathcal{F}_c(f) \):
 \[
 \mathcal{F}_c(f) = \frac{ \sqrt{ \frac{2}{\pi} } a }{ a^2 + w^2 }
 = \boxed{ \frac{ a \sqrt{ \frac{2}{\pi} } }{ a^2 + w^2 } }
@@ -672,7 +671,7 @@ Solve for \( \mathcal{F}_c(f) \):
 \mathcal{F}_c(f) = \frac{ a \sqrt{2/\pi} }{ a^2 + w^2 }
 \]
 
-Multiply numerator and denominator by \( w \):
+We multiply numerator and denominator by \( w \):
 \[
 = \frac{ w \cdot a \cdot \sqrt{2/\pi} }{ w(a^2 + w^2) }
 = \frac{w}{ \frac{w \cdot \sqrt{2/\pi} }{ a^2 + w^2 } }
