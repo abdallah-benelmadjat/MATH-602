@@ -31,6 +31,39 @@
 
 % --- First Problem ---
 \section*{Problem 1}
+
+\noindent
+Find the Fourier series for the periodic functions below, and plot the 
+functions along with their partial sums:
+\[
+a_0 + \sum_{n=1}^{N} \bigl(a_n \cos(nx) + b_n \sin(nx)\bigr)
+\quad \text{for } N = 1, 2, 3.
+\]
+
+\noindent
+(a)\quad
+\[
+f(x) =
+\begin{cases}
+0, & -2 \le x < 0,\\[6pt]
+2, & 0 \le x < 2,
+\end{cases}
+\quad\text{and}\quad f(x+4) = f(x).
+\]
+
+\noindent
+(b)\quad
+\[
+f(x) =
+\begin{cases}
+\tfrac{1}{2} + x, & -\tfrac{1}{2} \le x < 0,\\[6pt]
+-\tfrac{1}{2} - x, & 0 \le x < \tfrac{1}{2},
+\end{cases}
+\quad\text{and}\quad f(x+1) = f(x).
+\]
+
+\section*{Solution:}
+
 \subsection*{a) Let $L = 2$}
 
 Given:
@@ -163,9 +196,22 @@ Truncated:
 g(x) \approx \frac{1}{4} + \frac{1}{\pi^2} \left( \frac{1}{1^2} \cos(2\pi x) + \frac{1}{3^2} \cos(6\pi x) \right)
 \]
 
+% --- Second Problem ---
+
 \newpage
 \section*{Problem 2}
 
+\noindent
+Find the Fourier series of
+\[
+f(x) = \frac{x^2}{2}, \qquad (-\pi < x < \pi)
+\]
+and using it show that
+\[
+1 + \frac{1}{4} + \frac{1}{9} + \frac{1}{16} + \frac{1}{25} + \dots = \frac{\pi^2}{6}.
+\]
+
+\section*{Solution:}
 Let:
 \[
 g(x) = \frac{x^2}{2}, \qquad L = \pi, \qquad \text{function is } 2\pi\text{-periodic}
@@ -278,8 +324,23 @@ So:
 \Rightarrow \sum_{n=1}^{\infty} \frac{1}{n^2} = \boxed{ \frac{\pi^2}{6} }
 \]
 
+% --- Third Problem ---
+
 \newpage
 \section*{Problem 3}
+
+\noindent
+Show that the following integral representation of the function \( f(x) \) is valid:
+\[
+\int_0^{\infty} \frac{\cos x\omega + \omega \sin x\omega}{1 + \omega^2} \, d\omega = f(x) =
+\begin{cases}
+0, & -\frac{1}{2} \le x < 0 \\[6pt]
+\frac{\pi}{2}, & x = 0 \\[6pt]
+\pi e^{-x}, & x > 0
+\end{cases}
+\]
+
+\section*{Solution:}
 
 Evaluate:
 \[
@@ -431,8 +492,20 @@ Thus:
 }
 \]
 
+% --- Fourth Problem ---
+
 \newpage
 \section*{Problem 4}
+
+\noindent
+Show that
+\[
+\int_0^{\infty} \frac{\cos x\omega}{1 + \omega^2} \, d\omega = \frac{\pi}{2} e^{-x} \quad \text{if } x > 0
+\]
+
+\vspace{0.5cm}
+
+\section*{Solution:}
 
 \textbf{Goal:}
 \[
@@ -553,9 +626,20 @@ e^{-x} = \frac{2}{\pi} \int_0^\infty \frac{\cos(xw)}{1 + w^2} \, dw
 }
 \]
 
+% --- Fifth Problem ---
+
 \newpage
 \section*{Problem 5}
 
+\noindent
+Compute
+\[
+\mathcal{F}_c\left( \frac{1}{1 + x^2} \right)
+\quad \text{and} \quad
+\mathcal{F}_s\left( e^{-ax} \right) \quad (a > 0)
+\]
+
+\section*{Solution:}
 ---
 
 \subsection*{1. Fourier Cosine Transform of \( f(x) = \frac{1}{1 + x^2} \)}
