@@ -1,0 +1,1 @@
+This repository contains a LaTeX-formatted homework report for MATH 602: Advanced Engineering Mathematics II at UWM. It covers detailed derivations, visualizations, and solutions of Fourier Series and Fourier Transforms, including step-by-step math and plots.
