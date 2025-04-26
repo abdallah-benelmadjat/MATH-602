@@ -1,0 +1,550 @@
+\documentclass{article}
+\usepackage{amsmath, amssymb}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{titlesec}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage[most]{tcolorbox}
+
+\date{}
+
+
+\begin{document}
+
+\begin{titlepage}
+    \centering
+    \includegraphics[width=0.5\textwidth]{uwm-logo.png} \\[1cm]
+    
+    {\Large \textbf{Mechanical Engineering Department}}\\[0.5em]
+    {\large ME604/704 - Advanced Engineering Mathematics II}\\[0.5em]
+    {\large Instructor: Dr. Istvan Lauko}\\[0.5em]
+    {\large Spring 2025}\\[2cm]
+    
+    {\large \textbf{Class:} MATH 602}\\[0.5em]
+    {\large \textbf{} Test II}\\[0.5em]
+    {\large \textbf{Name:} Abdallah Benelmadjat}\\[0.5em]
+    {\large Find the \LaTeX\ GitHub source code by clicking \href{https://github.com/abdallah-benelmadjat/MATH-602/blob/main/HW4.tex}{\textcolor{blue}{here}}}\\
+\end{titlepage}
+
+
+\newpage
+
+\begin{tcolorbox}[colback=white, colframe=black, boxrule=0.8pt, arc=2mm]
+\section*{Problem 1}
+Consider a three-variable scalar function $w(x,y,z)$ and vector function $\boldsymbol{\phi}(x,y,z) = (\phi_1(x,y,z), \phi_2(x,y,z), \phi_3(x,y,z))$. Show that
+\[
+\text{div}(w\boldsymbol{\phi}) = \boldsymbol{\phi} \cdot \nabla w + w \, \text{div} \, \boldsymbol{\phi}
+\]
+(here $\nabla u = (u_x, u_y, u_z)$ and $\text{div} \, u = u_x + u_y + u_z$.) Take $\boldsymbol{\phi} = \nabla u$, integrate the identity over a bounded, connected subset $\Omega$ of $\mathbb{R}^3$, and show Green’s identity
+\[
+\int_{\Omega} w \Delta u \, dV = - \int_{\Omega} \nabla u \cdot \nabla w \, dV + \int_{\partial \Omega} w \nabla u \cdot \mathbf{n} \, dA.
+\]
+
+Using Green’s identity, prove that the Dirichlet problem
+\[
+\left\{
+\begin{aligned}
+\Delta u &= \lambda u \quad \text{for } (x,y,z) \in \Omega \\
+u &= 0 \quad \text{for } (x,y,z) \in \partial \Omega
+\end{aligned}
+\right.
+\]
+cannot have a nontrivial solution unless $\lambda$ is negative.
+
+\end{tcolorbox}
+
+\subsection*{\underline{Solution:}}
+
+Let $w = w(x,y,z)$
+
+Let $\boldsymbol{\phi} = (\phi_1(x,y,z), \phi_2(x,y,z), \phi_3(x,y,z))$
+
+\[
+\text{div}(w\boldsymbol{\phi}) = \frac{\partial}{\partial x}(w \phi_1) + \frac{\partial}{\partial y}(w \phi_2) + \frac{\partial}{\partial z}(w \phi_3)
+\]
+\[
+= \phi_1 \frac{\partial w}{\partial x} + w \frac{\partial \phi_1}{\partial x}
++ \phi_2 \frac{\partial w}{\partial y} + w \frac{\partial \phi_2}{\partial y}
++ \phi_3 \frac{\partial w}{\partial z} + w \frac{\partial \phi_3}{\partial z}
+\]
+\[
+= (\phi_1 w_x + \phi_2 w_y + \phi_3 w_z) + w(\phi_{1,x} + \phi_{2,y} + \phi_{3,z})
+\]
+\[
+= \boldsymbol{\phi} \cdot \nabla w + w \, \text{div}(\boldsymbol{\phi})
+\]
+
+Let $\boldsymbol{\phi} = \nabla u = (u_x, u_y, u_z)$
+
+\[
+\text{div}(w \nabla u) = \nabla u \cdot \nabla w + w \Delta u
+\]
+
+\[
+\int_\Omega \text{div}(w \nabla u) \, dV = \int_\Omega \nabla u \cdot \nabla w \, dV + \int_\Omega w \Delta u \, dV
+\]
+\[
+\int_\Omega \text{div}(w \nabla u) \, dV = \int_{\partial \Omega} w \nabla u \cdot \mathbf{n} \, dA
+\]
+\[
+\int_{\partial \Omega} w \nabla u \cdot \mathbf{n} \, dA = \int_\Omega \nabla u \cdot \nabla w \, dV + \int_\Omega w \Delta u \, dV
+\]
+\[
+\int_\Omega w \Delta u \, dV = -\int_\Omega \nabla u \cdot \nabla w \, dV + \int_{\partial \Omega} w \nabla u \cdot \mathbf{n} \, dA
+\]
+
+\[
+\left\{
+\begin{aligned}
+\Delta u &= \lambda u \quad \text{in } \Omega \\
+u &= 0 \quad \text{on } \partial \Omega
+\end{aligned}
+\right.
+\]
+
+\[
+\int_\Omega u \Delta u \, dV = - \int_\Omega \|\nabla u\|^2 \, dV + \int_{\partial \Omega} u \nabla u \cdot \mathbf{n} \, dA
+\]
+
+\[
+\int_{\partial \Omega} u \nabla u \cdot \mathbf{n} \, dA = 0
+\]
+
+\[
+\int_\Omega \lambda u^2 \, dV = - \int_\Omega \|\nabla u\|^2 \, dV
+\]
+\[
+\lambda \int_\Omega u^2 \, dV = - \int_\Omega \|\nabla u\|^2 \, dV
+\]
+
+\[
+\lambda = - \frac{ \int_\Omega \|\nabla u\|^2 \, dV }{ \int_\Omega u^2 \, dV }
+\]
+
+\[
+\boxed{\lambda < 0}
+\]
+
+
+\newpage
+
+\begin{tcolorbox}[colback=white, colframe=black, boxrule=0.8pt, arc=2mm]
+
+\section*{Problem 2}
+Consider the Sturm–Liouville problem
+\[
+\left\{
+\begin{aligned}
+-(x^2 y')' &= \lambda y \quad \text{for } 1 < x < \pi, \\
+y(1) &= 0, \\
+y(\pi) &= 0.
+\end{aligned}
+\right.
+\]
+
+Multiplying the ODE by $y$ and integrating on $[1, \pi]$, show that the problem has nontrivial solutions only for non-negative $\lambda$. Find the eigenvalues and eigenfunctions of the problem.
+
+\end{tcolorbox}
+
+\subsection*{\underline{Solution:}}
+
+Given:
+\[
+-(x^2 y')' = \lambda y, \quad 1 < x < \pi, \quad y(1) = 0, \quad y(\pi) = 0
+\]
+
+Compute:
+\[
+-(x^2 y')' = -\left(2x y' + x^2 y''\right) = \lambda y
+\Rightarrow x^2 y'' + 2x y' + \lambda y = 0
+\]
+
+Assume: $y(x) = \sum_{n=0}^{\infty} a_n x^{n+r}$
+
+\[
+y' = \sum_{n=0}^{\infty} a_n (n+r) x^{n+r-1}
+\]
+\[
+y'' = \sum_{n=0}^{\infty} a_n (n+r)(n+r-1) x^{n+r-2}
+\]
+
+Substitute into the ODE:
+\[
+x^2 y'' + 2x y' + \lambda y = \sum_{n=0}^{\infty} a_n (n+r)(n+r-1) x^{n+r} + \sum_{n=0}^{\infty} 2a_n (n+r) x^{n+r} + \sum_{n=0}^{\infty} \lambda a_n x^{n+r}
+\]
+
+\[
+= \sum_{n=0}^{\infty} a_n \left[ (n+r)(n+r-1) + 2(n+r) + \lambda \right] x^{n+r}
+\]
+
+\[
+= \sum_{n=0}^{\infty} a_n \left[ (n+r)(n+r-1) + 2(n+r) + \lambda \right] x^{n+r} = 0
+\]
+
+Indicial equation from lowest power ($n = 0$):
+\[
+a_0 \left[ r(r-1) + 2r + \lambda \right] = a_0 \left[ r^2 + \lambda \right] = 0
+\]
+
+\[
+r^2 + \lambda = 0 \Rightarrow r = \pm \sqrt{-\lambda}
+\]
+
+Case 1: $\lambda = 0$, $r = 0$
+\[
+y(x) = a_0 x^0 + a_1 x^1
+\]
+Boundary conditions:
+\[
+y(1) = a_0 + a_1 = 0 \\
+y(\pi) = a_0 + a_1 \pi = 0
+\Rightarrow a_0 = a_1 = 0
+\]
+
+Case 2: $\lambda > 0$, $r = \pm i\sqrt{\lambda}$
+\[
+y(x) = x^{1/2} \left[ C_1 \cos\left( \frac{1}{2} \sqrt{4\lambda - 1} \ln x \right)
++ C_2 \sin\left( \frac{1}{2} \sqrt{4\lambda - 1} \ln x \right) \right]
+\]
+
+Boundary condition $y(1) = 0$:
+\[
+x = 1 \Rightarrow \ln x = 0 \Rightarrow y(1) = x^{1/2} C_1 = 0 \Rightarrow C_1 = 0
+\]
+
+Boundary condition $y(\pi) = 0$:
+\[
+x = \pi \Rightarrow
+C_2 \sin\left( \frac{1}{2} \sqrt{4\lambda - 1} \ln \pi \right) = 0
+\Rightarrow \frac{1}{2} \sqrt{4\lambda - 1} \ln \pi = n \pi
+\Rightarrow \sqrt{4\lambda - 1} = \frac{2n\pi}{\ln \pi}
+\]
+
+\[
+4\lambda - 1 = \left( \frac{2n\pi}{\ln \pi} \right)^2
+\Rightarrow \lambda_n = \frac{1}{4} + \left( \frac{n\pi}{\ln \pi} \right)^2
+\]
+
+\[
+y_n(x) = x^{1/2} \sin\left( \frac{1}{2} \sqrt{4\lambda_n - 1} \ln x \right)
+\]
+
+$\lambda_n > 0$ yields nontrivial solution.
+
+\[
+\boxed{\lambda_n = \left( \frac{n\pi}{\ln \pi} \right)^2 + \frac{1}{4}}, \quad
+\boxed{y_n(x) = x^{1/2} \sin\left( \frac{n\pi}{\ln \pi} \ln x \right)}
+\]
+
+\newpage
+
+\begin{tcolorbox}[colback=white, colframe=black, boxrule=0.8pt, arc=2mm]
+
+\section*{Problem 3}
+Consider the radially symmetric cooling of a sphere of radius $\pi$ placed in constant temperature ambient. Using spherical coordinates $(\rho, \phi, \theta)$, the form of the Laplacian in spherical coordinates 
+\[
+\Delta u = u_{\rho\rho} + \frac{2}{\rho} u_{\rho} + \frac{1}{\rho^2 \sin^2 \phi} u_{\theta\theta} + \frac{1}{\rho^2} u_{\phi\phi} + \frac{\cot \phi}{\rho^2} u_{\phi}
+\]
+and radial symmetry ($u = u(\rho)$), the problem can be formulated as
+\[
+\left\{
+\begin{aligned}
+u_t &= c^2 \left(u_{\rho\rho} + \frac{2}{\rho} u_{\rho} \right) \quad &\text{for } 0 \leq \rho < \pi, \quad t > 0 \\
+u(\pi, t) &= 0 \quad &\text{for } t > 0 \\
+u(\rho, 0) &= T_0 \quad &\text{for } 0 \leq \rho < \pi.
+\end{aligned}
+\right.
+\]
+
+Solve this problem using separation of variables $u = G(t)F(\rho)$, assuming finite solution throughout the ball for all time. In the corresponding Sturm–Liouville problem you might want to consider a change of variables $R(\rho) = \rho F(\rho)$.\\
+
+This problem has been used to estimate the age of the Earth by Lord Kelvin.
+
+\end{tcolorbox}
+
+\subsection*{\underline{Solution:}}
+
+\[
+f(x) =
+\begin{cases}
+x - \pi, & 0 < x < \pi \\
+0, & \pi \leq x
+\end{cases}
+\]
+
+Fourier sine integral:
+\[
+f(x) = \int_0^\infty B(\omega) \sin(\omega x) \, d\omega
+\quad \text{where} \quad
+B(\omega) = \frac{2}{\pi} \int_0^\pi (x - \pi) \sin(\omega x) \, dx
+\]
+
+\[
+B(\omega) = \frac{2}{\pi} \left[ \int_0^\pi x \sin(\omega x) \, dx - \pi \int_0^\pi \sin(\omega x) \, dx \right]
+\]
+
+Integration by parts:
+\[
+\int x \sin(\omega x) \, dx,
+\quad u = x,\ dv = \sin(\omega x)\, dx,
+\quad du = dx,\ v = -\frac{1}{\omega} \cos(\omega x)
+\]
+\[
+= -\frac{x}{\omega} \cos(\omega x) \Big|_0^\pi + \int_0^\pi \frac{1}{\omega} \cos(\omega x) \, dx
+= -\frac{\pi}{\omega} \cos(\omega \pi) + \frac{1}{\omega^2} \sin(\omega x) \Big|_0^\pi
+= -\frac{\pi}{\omega} \cos(\omega \pi) + \frac{1}{\omega^2} \sin(\omega \pi)
+\]
+
+\[
+\int_0^\pi \sin(\omega x) \, dx = \left[ -\frac{1}{\omega} \cos(\omega x) \right]_0^\pi
+= \frac{1}{\omega} \left(1 - \cos(\omega \pi)\right)
+\]
+
+\[
+B(\omega) = \frac{2}{\pi} \left[ -\frac{\pi}{\omega} \cos(\omega \pi) + \frac{1}{\omega^2} \sin(\omega \pi)
+- \frac{\pi}{\omega} \left(1 - \cos(\omega \pi)\right) \right]
+= \frac{2}{\pi} \left[ -\frac{\pi}{\omega} + \frac{\sin(\omega \pi)}{\omega^2} \right]
+\]
+
+\[
+B(\omega) = \frac{2 \sin(\omega \pi)}{\pi \omega^2} - \frac{2}{\omega}
+\]
+
+\[
+f(x) = \int_0^\infty \left( \frac{2 \sin(\omega \pi)}{\pi \omega^2} - \frac{2}{\omega} \right) \sin(\omega x) \, d\omega
+\]
+
+Now for:
+\[
+g(x) =
+\begin{cases}
+e^x, & 0 < x < 1 \\
+0, & 1 \leq x
+\end{cases}
+\]
+
+\[
+g(x) = \int_0^\infty B(\omega) \sin(\omega x) \, d\omega,
+\quad
+B(\omega) = \frac{2}{\pi} \int_0^1 e^x \sin(\omega x) \, dx
+\]
+
+\[
+\int e^x \sin(\omega x) \, dx,
+\quad u = e^x,\ dv = \sin(\omega x)\, dx,
+\quad du = e^x dx,\ v = -\frac{1}{\omega} \cos(\omega x)
+\]
+
+\[
+= -\frac{e^x}{\omega} \cos(\omega x) + \int \frac{e^x}{\omega} \cos(\omega x) \, dx
+\quad \text{now let } u = e^x,\ dv = \cos(\omega x)\, dx
+\Rightarrow \int e^x \cos(\omega x)\, dx = \frac{e^x (\omega \sin(\omega x) + \cos(\omega x))}{1 + \omega^2}
+\]
+
+\[
+\int_0^1 e^x \sin(\omega x)\, dx = \frac{e \sin(\omega) - \omega e \cos(\omega) + \omega}{1 + \omega^2}
+\]
+
+\[
+B(\omega) = \frac{2}{\pi} \cdot \frac{e \sin(\omega) - \omega e \cos(\omega) + \omega}{1 + \omega^2}
+\]
+
+\[
+g(x) = \int_0^\infty \frac{2}{\pi(1 + \omega^2)} \left[ e \sin(\omega) - \omega e \cos(\omega) + \omega \right] \sin(\omega x) \, d\omega
+\]
+
+\newpage
+
+\begin{tcolorbox}[colback=white, colframe=black, boxrule=0.8pt, arc=2mm]
+
+\section*{Problem 4}
+Use Laplace transform to solve for $u = u(x,t)$ the initial boundary value problem
+\[
+\left\{
+\begin{aligned}
+x \frac{\partial u}{\partial x} + \frac{\partial u}{\partial t} &= xt \quad &&\text{for } x > 0, \, t > 0 \\
+u(x,0) &= 0 \quad &&\text{for } x \geq 0 \\
+u(0,t) &= 0 \quad &&\text{for } t \geq 0.
+\end{aligned}
+\right.
+\]
+
+\end{tcolorbox}
+
+\subsection*{\underline{Solution:}}
+
+Let $\mathcal{L}\{u(x,t)\} = \bar{u}(x,s)$
+
+\[
+\mathcal{L} \left\{ x \frac{\partial u}{\partial x} + \frac{\partial u}{\partial t} \right\}
+= x \frac{\partial \bar{u}}{\partial x} + s \bar{u}(x,s) - u(x,0)
+= x \frac{\partial \bar{u}}{\partial x} + s \bar{u}(x,s)
+\]
+
+Given:
+\[
+x \frac{\partial u}{\partial x} + \frac{\partial u}{\partial t} = x t
+\Rightarrow
+x \frac{\partial \bar{u}}{\partial x} + s \bar{u}(x,s) = \mathcal{L}\{xt\}
+\]
+
+\[
+\mathcal{L}\{xt\} = x \mathcal{L}\{t\} = x \cdot \frac{1}{s^2}
+\Rightarrow x \frac{\partial \bar{u}}{\partial x} + s \bar{u} = \frac{x}{s^2}
+\]
+
+ODE:
+\[
+\frac{d\bar{u}}{dx} + \frac{s}{x} \bar{u} = \frac{1}{s^2}
+\Rightarrow
+P(x) = \frac{s}{x}, \quad Q(x) = \frac{1}{s^2}
+\]
+
+Integrating factor:
+\[
+M(x) = \exp\left( \int \frac{s}{x} dx \right) = x^s
+\]
+
+\[
+\frac{d}{dx}(x^s \bar{u}) = \frac{x^s}{s^2}
+\Rightarrow
+x^s \bar{u} = \int \frac{x^s}{s^2} dx = \frac{1}{s^2} \cdot \frac{x^{s+1}}{s+1} + C
+\]
+
+\[
+\bar{u}(x,s) = \frac{1}{s^2(s+1)} x + \frac{C}{x^s}
+\]
+
+From $u(0,t) = 0 \Rightarrow \bar{u}(0,s) = 0 \Rightarrow C = 0$
+
+\[
+\bar{u}(x,s) = \frac{x}{s^2(s+1)}
+\]
+
+Inverse Laplace:
+\[
+\mathcal{L}^{-1} \left\{ \frac{1}{s^2(s+1)} \right\}
+= \mathcal{L}^{-1} \left\{ \frac{A}{s} + \frac{B}{s^2} + \frac{C}{s+1} \right\}
+\]
+
+Solve:
+\[
+\frac{1}{s^2(s+1)} = \frac{A}{s} + \frac{B}{s^2} + \frac{C}{s+1}
+\Rightarrow
+1 = A s (s+1) + B (s+1) + C s^2
+\Rightarrow
+A = -1, \quad B = 1, \quad C = 1
+\]
+
+\[
+\mathcal{L}^{-1} \left\{ \frac{1}{s^2(s+1)} \right\} = -1 + t + e^{-t}
+\]
+
+\[
+u(x,t) = x (-1 + t + e^{-t}) = x (t + e^{-t} - 1)
+\]
+
+\newpage
+
+\begin{tcolorbox}[colback=white, colframe=black, boxrule=0.8pt, arc=2mm]
+
+\section*{Problem 5}
+The vertical free vibrations of a horizontal, uniform elastic beam with rectangular cross section of area $A$, is governed by the partial differential equation (beam equation):
+\[
+\frac{\partial^2 u}{\partial t^2} + c^2 \frac{\partial^4 u}{\partial x^4} = 0 \quad \text{for } 0 \leq x \leq L, \, t \geq 0.
+\]
+
+Here $u(x,t)$ denotes the beam’s vertical displacement at position $x$ and time $t$, 
+\[
+c^2 = \frac{EI}{\rho A} > 0
+\]
+(with cross-sectional area $A$, density $\rho$, Young’s modulus $E$, and $I$ that denotes the moment of inertia of the cross section with respect to the y-axis).
+
+\medskip
+
+Consider the case of the simply supported vibrating beam for which the following conditions are satisfied:
+\[
+\left\{
+\begin{aligned}
+u(0,t) &= u(L,t) = 0 &&\text{for } t \geq 0 \quad \text{(the ends do not move)}, \\
+u_{xx}(0,t) &= u_{xx}(L,t) = 0 &&\text{for } t \geq 0 \quad \text{(bending has zero curvature at the ends)}.
+\end{aligned}
+\right.
+\]
+
+\medskip
+
+Assume that the initial shape is given as $u(x,0) = \sin\left(\frac{\pi x}{L}\right)$, along with zero initial velocity $u_t(x,0) = 0$ for $x \in [0, L]$. Find a series solution for the vibration $u(x,t)$, $x \in [0, L]$, $t \geq 0$.
+
+\end{tcolorbox}
+
+\subsection*{\underline{Solution:}}
+
+\[
+\frac{\partial^2 u}{\partial t^2} + c^2 \frac{\partial^4 u}{\partial x^4} = 0, \quad 0 \leq x \leq L,\ t \geq 0
+\]
+\[
+u(0,t) = u(L,t) = 0, \quad u_{xx}(0,t) = u_{xx}(L,t) = 0
+\]
+\[
+u(x,0) = \sin\left(\frac{\pi x}{L}\right), \quad u_t(x,0) = 0
+\]
+
+Assume $u(x,t) = X(x)T(t)$
+
+\[
+X(x)T''(t) + c^2 X^{(4)}(x) T(t) = 0
+\Rightarrow
+\frac{T''(t)}{T(t)} = -c^2 \frac{X^{(4)}(x)}{X(x)} = -\lambda
+\]
+
+\[
+T'' + \lambda T = 0, \quad X^{(4)} - \mu^4 X = 0, \quad \mu^4 = \frac{\lambda}{c^2}
+\]
+
+General solution:
+\[
+X(x) = A \sin(\mu x) + B \cos(\mu x) + C x \sin(\mu x) + D x \cos(\mu x)
+\]
+
+\[
+X(0) = 0 \Rightarrow B = 0
+\quad X''(0) = 0 \Rightarrow C = 0
+\]
+
+\[
+X(L) = A \sin(\mu L) + D L \cos(\mu L) = 0
+\quad X''(L) = -A \mu^2 \sin(\mu L) - 2C \mu \cos(\mu L) - D \mu^2 L \cos(\mu L) + 2D \mu \sin(\mu L)
+\]
+
+At $x = 0$: $X''(0) = -2C\mu + 2D\mu \Rightarrow C = 0$
+
+\[
+X(L) = A \sin(\mu L) + D L \cos(\mu L) = 0
+\quad X''(L) = -A \mu^2 \sin(\mu L) + 2D \mu \sin(\mu L) - D \mu^2 L \cos(\mu L)
+\]
+
+\[
+X_n(0) = 0, \quad X_n(L) = 0
+\quad X_n''(x) = -\left(\frac{n \pi}{L}\right)^2 \sin\left( \frac{n \pi x}{L} \right)
+\quad X_n''(0) = X_n''(L) = 0
+\]
+
+Assume Fourier sine series:
+\[
+u(x,t) = \sum_{n=1}^{\infty} A_n \cos(\omega_n t) \sin\left( \frac{n \pi x}{L} \right)
+\quad \omega_n = c \left( \frac{n \pi}{L} \right)^2
+\]
+
+From initial conditions:
+\[
+u(x,0) = \sin\left( \frac{\pi x}{L} \right) \Rightarrow A_1 = 1, \quad A_n = 0,\ n \neq 1
+\quad u_t(x,0) = 0
+\]
+
+\[
+u(x,t) = \cos\left( \frac{c \pi^2 t}{L^2} \right) \sin\left( \frac{\pi x}{L} \right)
+\]
+
+\end{document}
