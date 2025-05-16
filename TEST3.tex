@@ -1,0 +1,1082 @@
+\documentclass{article}
+\usepackage{amsmath,amsfonts}
+\usepackage{tcolorbox}
+\usepackage{listings}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{titlesec}
+\usepackage{hyperref}
+\usepackage{xcolor}
+
+\begin{document}
+
+\date{}
+
+\begin{titlepage}
+    \centering
+    \includegraphics[width=0.5\textwidth]{uwm-logo.png} \\[1cm]
+    
+    {\Large \textbf{Mechanical Engineering Department}}\\[0.5em]
+    {\large ME604/704 - Advanced Engineering Mathematics II}\\[0.5em]
+    {\large Instructor: Dr. Istvan Lauko}\\[0.5em]
+    {\large Spring 2025}\\[2cm]
+    
+    {\large \textbf{Class:} MATH 604}\\[0.5em]
+    {\large \textbf{} Test III}\\[0.5em]
+    {\large \textbf{Name:} Abdallah Benelmadjat}\\[0.5em]
+    {\large Find the \LaTeX\ GitHub source code by clicking \href{https://github.com/abdallah-benelmadjat/MATH-602/blob/main/HW4.tex}{\textcolor{blue}{here}}}\\
+\end{titlepage}
+
+\newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 1.  Trial space and approximate solution
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Problem 1}
+
+Given the boundary value problem:
+\[
+\begin{cases}
+x^2 y'' + 4x y' + 2y = -2 \ln x, \quad 1 \leq x \leq 2 \\
+y(1) = -0.5 \\
+y(2) = \ln 2
+\end{cases}
+\]
+
+Using finite difference approximation with step size:
+\[
+h = \frac{2 - 1}{N} = \frac{1}{N}
+\]
+
+Discretizing the domain:
+\[
+x_i = 1 + (i-1)h, \quad i = 1, 2, \dots, N+1
+\]
+
+First derivative approximation:
+\[
+y'_i \approx \frac{y_{i+1} - y_{i-1}}{2h}
+\]
+
+Second derivative approximation:
+\[
+y''_i \approx \frac{y_{i+1} - 2y_i + y_{i-1}}{h^2}
+\]
+
+Substituting into the ODE at node $i$:
+\[
+x_i^2 \left( \frac{y_{i+1} - 2y_i + y_{i-1}}{h^2} \right) + 4x_i \left( \frac{y_{i+1} - y_{i-1}}{2h} \right) + 2y_i = -2\ln x_i
+\]
+
+Rewriting:
+\[
+\frac{x_i^2}{h^2} y_{i+1} - 2\frac{x_i^2}{h^2} y_i + \frac{x_i^2}{h^2} y_{i-1} + \frac{2x_i}{h} y_{i+1} - \frac{2x_i}{h} y_{i-1} + 2y_i = -2\ln x_i
+\]
+
+Rearranged:
+\[
+\left( \frac{x_i^2}{h^2} + \frac{2x_i}{h} \right) y_{i+1} + \left( -2\frac{x_i^2}{h^2} + 2 \right) y_i + \left( \frac{x_i^2}{h^2} - \frac{2x_i}{h} \right) y_{i-1} = -2\ln x_i
+\]
+
+Final discretized form:
+\[
+\left( \frac{x_i^2}{h^2} + \frac{2x_i}{h} \right) y_{i+1} + \left( -2\frac{x_i^2}{h^2} + 2 \right) y_i + \left( \frac{x_i^2}{h^2} - \frac{2x_i}{h} \right) y_{i-1} = -2\ln x_i
+\]
+
+Vector form:
+\[
+A \mathbf{y} = \mathbf{b}
+\]
+
+Where:
+\[
+A = \text{tridiagonal matrix with coefficients as above}
+\]
+\[
+\mathbf{b} = \text{column vector with entries } -2 \ln x_i
+\]
+
+Boundary conditions:
+\[
+y_1 = -0.5
+\]
+\[
+y_{N+1} = \ln 2
+\]
+
+\section*{MATLAB Code}
+
+\lstset{
+    language=Matlab,
+    basicstyle=\ttfamily\footnotesize,
+    keywordstyle=\color{blue},
+    commentstyle=\color{gray},
+    stringstyle=\color{red},
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    stepnumber=1,
+    numbersep=5pt,
+    frame=single,
+    breaklines=true,
+    showstringspaces=false
+}
+
+\begin{tcolorbox}[title=MATLAB code to solve using Jordan method:]
+\begin{lstlisting}
+clc
+clear
+h = 0.1;
+x = 1:h:2;
+N = length(x);
+y = zeros(N, 1);
+y(1) = -0.5;
+y(N) = log(2);
+for i = 2:N-1
+    p = x(i)/h;
+    y(i) = (((-2*p) - (p^2)) * y(i+1) + ((2*p) - (p^2)) * y(i-1) - 2*log(x(i))) / (2 - (2*(x(i)^2))/(h^2));
+end
+\end{lstlisting}
+\end{tcolorbox}
+
+\newpage
+
+
+\section*{Problem 2}
+
+Given:
+\[
+T(0,t) = \sin(\pi t)
+\]
+\[
+T(L,t) = \sin(2\pi t)
+\]
+\[
+T(x,0) = 0
+\]
+
+Heat equation:
+\[
+T_t(x,t) = c^2 T_{xx}(x,t), \quad c^2 = 3, \quad 0 \leq x \leq 2, \quad t \geq 0
+\]
+
+Discretization parameters:
+\[
+\Delta x = 0.2, \quad \Delta t = 0.25
+\]
+\[
+r = \frac{c^2 \Delta t}{\Delta x^2} = \frac{3 \times 0.25}{0.2^2} = 18.75
+\]
+
+Number of nodes in space:
+\[
+n = \frac{L}{\Delta x} - 1 = 9
+\]
+
+Number of time steps:
+\[
+m = \frac{t_f}{\Delta t} = \frac{10}{0.25} = 40
+\]
+
+Crank-Nicolson scheme discretization:
+\[
+\frac{T_i^{j+1} - T_i^j}{\Delta t} = \frac{c^2}{2} \left( \frac{T_{i+1}^j - 2T_i^j + T_{i-1}^j}{\Delta x^2} + \frac{T_{i+1}^{j+1} - 2T_i^{j+1} + T_{i-1}^{j+1}}{\Delta x^2} \right)
+\]
+
+Rearranged to matrix form:
+\[
+A \mathbf{T}^{j+1} = \mathbf{B}^j
+\]
+
+\section*{MATLAB Code}
+
+\lstset{
+    language=Matlab,
+    basicstyle=\ttfamily\footnotesize,
+    keywordstyle=\color{blue},
+    commentstyle=\color{gray},
+    stringstyle=\color{red},
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    stepnumber=1,
+    numbersep=5pt,
+    frame=single,
+    breaklines=true,
+    showstringspaces=false
+}
+
+\begin{tcolorbox}[title=Crank-Nicolson Method MATLAB Code for Problem 2]
+\begin{lstlisting}
+% code to simulate problem 2
+clc, clear;
+a = 3;
+L = 2;
+tf = 10;
+del_t = 0.25;
+del_x = 0.2;
+d = a * del_t / (del_x^2);
+m = tf / del_t;
+n = L / del_x - 1;
+x = (del_x:del_x:L-del_x);
+t = (del_t:del_t:tf);
+boun_left_temp = zeros(1, m + 1);
+boun_right_temp = zeros(1, m + 1);
+boun_left_temp(1) = 0;
+boun_right_temp(1) = 0;
+for i = 2:1:m + 1
+    boun_left_temp(i) = sin(pi * t(i - 1));
+    boun_right_temp(i) = sin(2 * pi * t(i - 1));
+end
+ini_temp = sin(pi * x / L);
+m_size = m * n;
+A = eye(m_size);
+A = A * 2 * (1 + d);
+for i = 2:m_size
+    A(i, i - 1) = -d;
+end
+for i = n + 1:n:m_size - (n - 1)
+    A(i, i - 1) = 0;
+end
+for i = 1:m_size - 1
+    A(i, i + 1) = -d;
+end
+for i = n:n:m_size - n
+    A(i, i + 1) = 0;
+end
+for i = n + 1:m_size
+    A(i, i - 1) = -2 * (1 - d);
+end
+for i = n + 2:m_size
+    A(i, i - n - 1) = -d;
+end
+for i = 2 * n + 1:n:m_size - n + 1
+    A(i, i - (n + 1)) = 0;
+end
+for i = n + 1:m_size
+    A(i, i - (n - 1)) = -d;
+end
+for i = 2 * n:n:m_size
+    A(i, i - (n - 1)) = 0;
+end
+B = zeros(m_size, 1);
+B(1) = (2 * (1 - d) * ini_temp(1)) + (d * boun_left_temp(1)) + (d * boun_left_temp(2)) + (d * ini_temp(2));
+B(n) = (d * boun_right_temp(1)) + (d * boun_right_temp(2)) + (d * ini_temp(n - 1)) + (2 * (1 - d) * ini_temp(n));
+for i = 2:n-1
+    B(i) = (d * ini_temp(i - 1)) + (2 * (1 - d) * ini_temp(i)) + (d * ini_temp(i + 1));
+end
+j = 2;
+for i = n + 1:n:m_size - (n - 1)
+    B(i) = (d * boun_left_temp(j)) + (d * boun_left_temp(j - 1));
+    j = j + 1;
+end
+j = 2;
+for i = 2 * n:n:m_size
+    B(i) = (d * boun_right_temp(j)) + (d * boun_right_temp(j - 1));
+    j = j + 1;
+end
+Temp_dist = inv(A) * B;
+l = 1;
+for i = 1:m
+    for j = 1:n
+        T(i, j) = Temp_dist(l);
+        l = l + 1;
+    end
+end
+figure(1)
+[C, h] = contour(x, t, T, 'linewidth', 1.1);
+set(h, 'ShowText', 'on', 'TextStep', get(h, 'LevelStep') * 2)
+colormap jet
+title('Temp. contour as a function of space and time')
+xlabel('Space x (cm)')
+ylabel('Time [s]')
+H = legend('Temp. Contours');
+set(H, 'Interpreter', 'Tex')
+grid on
+figure(2)
+surf(x, t, T)
+xlabel('Space x (cm)')
+ylabel('Time t (s)')
+zlabel('Temperature T (C)')
+\end{lstlisting}
+\end{tcolorbox}
+
+
+\newpage
+
+\section*{Problem 3}
+
+\textbf{Basis choice}  
+\[
+\phi_j(x)=x^{\,j}-x^{\,j+1},\qquad j=1,\dots ,N .
+\]
+Each $\phi_j$ satisfies $\phi_j(0)=\phi_j(1)=0$.
+
+\textbf{Expansion}  
+\[
+\tilde u(x)=\sum_{j=1}^{N}c_j\phi_j(x).
+\]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2. Differential operator and residual
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\textbf{Operator}  
+\[
+L=\dfrac{d^{\,2}}{dx^{2}}.
+\]
+
+\textbf{Residual}  
+\[
+R(x)=L\tilde u(x)-\lambda \tilde u(x)=\sum_{j=1}^{N}c_j\phi_j''(x)-\lambda\sum_{j=1}^{N}c_j\phi_j(x).
+\]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 3. Galerkin condition
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\textbf{Inner product}  
+\[
+\langle f,g\rangle=\int_{0}^{1}f(x)\,g(x)\,dx .
+\]
+
+\textbf{Orthogonality requirement}  
+\[
+\langle\phi_i,R\rangle=0,\qquad i=1,\dots ,N .
+\]
+
+Insert $R$:
+
+\[
+\sum_{j=1}^{N}c_j\,\langle\phi_i,\phi_j''\rangle
+-
+\lambda
+\sum_{j=1}^{N}c_j\,\langle\phi_i,\phi_j\rangle=0.
+\]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 4. Mass and stiffness matrices
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Define
+\[
+G_{ij}=\langle\phi_i,\phi_j\rangle,
+\qquad
+S_{ij}=\langle\phi_i',\phi_j'\rangle
+\;(\;= -\langle\phi_i,\phi_j''\rangle\;\text{by parts}\;).
+\]
+
+Galerkin system  
+\[
+S\mathbf c=\lambda G\mathbf c,\qquad
+\mathbf c=(c_1,\dots ,c_N)^{\mathrm T}.
+\]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 5. Exact algebra for G_{ij}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection*{Matrix $G$ (``mass'')}
+
+\begin{align*}
+G_{ij}
+&=\int_{0}^{1}(x^{\,i}-x^{\,i+1})(x^{\,j}-x^{\,j+1})\,dx\\[4pt]
+&=\int_{0}^{1}x^{\,i+j}\,dx
+-2\int_{0}^{1}x^{\,i+j+1}\,dx
++\int_{0}^{1}x^{\,i+j+2}\,dx.
+\end{align*}
+
+Using $\displaystyle\int_{0}^{1}x^{k}\,dx=\frac{1}{k+1}$:
+
+\[
+\boxed{\,G_{ij}
+=\frac{1}{i+j+1}-\frac{2}{i+j+2}+\frac{1}{i+j+3}\,}.
+\]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 6. Exact algebra for S_{ij}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection*{Matrix $S$ (``stiffness'')}
+
+First derivative  
+\[
+\phi_j'(x)=j\,x^{\,j-1}-(j+1)\,x^{\,j}.
+\]
+
+Product in the integrand  
+\[
+\phi_i'(x)\,\phi_j'(x)
+=i\,j\,x^{\,i+j-2}
+-(i\,j+i(j+1))\,x^{\,i+j-1}
++(i+1)(j+1)\,x^{\,i+j}.
+\]
+
+Integrate term–by–term:
+
+\[
+\int_{0}^{1}x^{\,i+j-2}\,dx=\frac{1}{i+j-1},
+\quad
+\int_{0}^{1}x^{\,i+j-1}\,dx=\frac{1}{i+j},
+\quad
+\int_{0}^{1}x^{\,i+j}\,dx=\frac{1}{i+j+1}.
+\]
+
+Collect:
+
+\[
+\boxed{\,S_{ij}=
+\frac{i\,j}{i+j-1}
+-\frac{2\,i\,j+i+j}{i+j}
++\frac{(i+1)(j+1)}{i+j+1}\,}.
+\]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 7. Explicit $4\times4$ matrices (example $N=4$)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+For $N=4$ evaluate $G_{ij},\,S_{ij}$ using the formulas.  
+\vspace{4pt}
+
+$G=$
+\[
+\begin{bmatrix}
+\frac{1}{3}-\frac{2}{4}+\frac{1}{5} & \frac{1}{4}-\frac{2}{5}+\frac{1}{6} & \frac{1}{5}-\frac{2}{6}+\frac{1}{7} & \frac{1}{6}-\frac{2}{7}+\frac{1}{8}\\
+\frac{1}{4}-\frac{2}{5}+\frac{1}{6} & \frac{1}{5}-\frac{2}{6}+\frac{1}{7} & \frac{1}{6}-\frac{2}{7}+\frac{1}{8} & \frac{1}{7}-\frac{2}{8}+\frac{1}{9}\\
+\frac{1}{5}-\frac{2}{6}+\frac{1}{7} & \frac{1}{6}-\frac{2}{7}+\frac{1}{8} & \frac{1}{7}-\frac{2}{8}+\frac{1}{9} & \frac{1}{8}-\frac{2}{9}+\frac{1}{10}\\
+\frac{1}{6}-\frac{2}{7}+\frac{1}{8} & \frac{1}{7}-\frac{2}{8}+\frac{1}{9} & \frac{1}{8}-\frac{2}{9}+\frac{1}{10}& \frac{1}{9}-\frac{2}{10}+\frac{1}{11}
+\end{bmatrix}.
+\]
+
+$S=$
+\[
+\begin{bmatrix}
+\frac{1}{1}-\frac{4}{2}+\frac{4}{3} & 
+\frac{2}{2}-\frac{7}{3}+\frac{6}{4} & 
+\frac{3}{3}-\frac{10}{4}+\frac{8}{5} & 
+\frac{4}{4}-\frac{13}{5}+\frac{10}{6}\\
+\frac{2}{2}-\frac{7}{3}+\frac{6}{4} &
+\frac{4}{3}-\frac{12}{4}+\frac{9}{5} &
+\frac{6}{4}-\frac{17}{5}+\frac{12}{6}&
+\frac{8}{5}-\frac{22}{6}+\frac{15}{7}\\
+\frac{3}{3}-\frac{10}{4}+\frac{8}{5}&
+\frac{6}{4}-\frac{17}{5}+\frac{12}{6}&
+\frac{9}{5}-\frac{22}{6}+\frac{16}{7}&
+\frac{12}{6}-\frac{27}{7}+\frac{20}{8}\\
+\frac{4}{4}-\frac{13}{5}+\frac{10}{6}&
+\frac{8}{5}-\frac{22}{6}+\frac{15}{7}&
+\frac{12}{6}-\frac{27}{7}+\frac{20}{8}&
+\frac{16}{7}-\frac{32}{8}+\frac{25}{9}
+\end{bmatrix}.
+\]
+
+(Values left unevaluated for transparency; insert decimals in software.)
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 8. Generalized eigenproblem
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Solve 
+\[
+S\mathbf c^{(k)}=\lambda_k\,G\mathbf c^{(k)},\qquad k=1,\dots ,N,
+\]
+e.g.\ \verb|[V,D]=eig(S,G)| in MATLAB / Octave.  
+
+\textbf{Approximate eigenfunction}  
+\[
+u_k(x)=\sum_{j=1}^{N}c^{(k)}_j\phi_j(x).
+\]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 9. Brief comments
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{itemize}
+\item $G$ encodes the $L^2$ inner product on the trial space.  
+\item $S$ originates from the weak form of $u''$ after one integration by parts.  
+\item Convergence: eigenvalues approach $(k\pi)^2$ and eigenfunctions $\sin(k\pi x)$ as $N\to\infty$.  
+\item Orthogonality with respect to $G$ replaces continuous $L^2$ orthogonality.  
+\end{itemize}
+
+\section*{MATLAB Code}
+
+\lstset{
+    language=Matlab,
+    basicstyle=\ttfamily\footnotesize,
+    keywordstyle=\color{blue},
+    commentstyle=\color{gray},
+    stringstyle=\color{red},
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    stepnumber=1,
+    numbersep=5pt,
+    frame=single,
+    breaklines=true,
+    showstringspaces=false
+}
+
+\begin{tcolorbox}[title=Galerkin Method MATLAB Code]
+\begin{lstlisting}
+clc;
+clear;
+N = 4;
+G = zeros(N, N);
+S = zeros(N, N);
+for i = 1:N
+    for j = 1:N
+        G(i, j) = -1 / (i + j + 1) - 2 / (i + j + 2) + 1 / (i + j + 3);
+        S(i, j) = -i * j / (i + j - 1) ...
+                  - (2 * i * j + i + j) / (i + j) ...
+                  + (i + 1) * (j + 1) / (i + j + 1);
+    end
+end
+disp('Gram Matrix G:');
+disp(G);
+disp('Stiffness Matrix S:');
+disp(S);
+Z = inv(G) * S;
+[C, Lambda] = eig(Z);
+disp('Eigenvalues (Lambda):');
+disp(diag(Lambda));
+disp('Eigenvectors (C):');
+disp(C);
+\end{lstlisting}
+\end{tcolorbox}
+
+\section*{Results}
+
+\begin{tcolorbox}[title=Gram Matrix $G$]
+\[
+G =
+\begin{bmatrix}
+-0.6333 & -0.4833 & -0.3905 & -0.3274 \\
+-0.4833 & -0.3905 & -0.3274 & -0.2817 \\
+-0.3905 & -0.3274 & -0.2817 & -0.2472 \\
+-0.3274 & -0.2817 & -0.2472 & -0.2202
+\end{bmatrix}
+\]
+\end{tcolorbox}
+
+\vspace{0.5cm}
+
+\begin{tcolorbox}[title=Stiffness Matrix $S$]
+\[
+S =
+\begin{bmatrix}
+-1.6667 & -1.8333 & -1.9000 & -1.9333 \\
+-1.8333 & -2.5333 & -2.9000 & -3.1238 \\
+-1.9000 & -2.9000 & -3.5143 & -3.9286 \\
+-1.9333 & -3.1238 & -3.9286 & -4.5079
+\end{bmatrix}
+\]
+\end{tcolorbox}
+
+\vspace{0.5cm}
+
+\begin{tcolorbox}[title=Eigenvalues $\Lambda$]
+\[
+\Lambda =
+\begin{bmatrix}
+277.4339 \\
+65.0520 \\
+1.8792 \\
+21.5381
+\end{bmatrix}
+\]
+\end{tcolorbox}
+
+\vspace{0.5cm}
+
+\begin{tcolorbox}[title=Eigenvectors $C$]
+\[
+C =
+\begin{bmatrix}
+0.0668  & -0.1142 & 0.7502  & 0.4688 \\
+-0.4258 & 0.5433  & -0.5924 & -0.7631 \\
+0.7876  & -0.7637 & 0.2764  & -0.1776 \\
+-0.4402 & 0.3294  & -0.1000 & 0.4080
+\end{bmatrix}
+\]
+\end{tcolorbox}
+
+\newpage
+
+\section*{Problem 4}
+
+\subsection*{Uniform mesh}
+
+\[
+x_i=i\Delta x,\qquad \Delta x=\dfrac1N,\qquad i=0,1,\dots ,N
+\]
+
+\subsection*{Piecewise linear basis}
+
+\[
+\phi_j(x)=
+\begin{cases}
+\dfrac{x-x_{j-1}}{\Delta x}, & x_{j-1}<x<x_j,\\[4pt]
+\dfrac{x_{j+1}-x}{\Delta x}, & x_j<x<x_{j+1},\\[4pt]
+0, & \text{otherwise},
+\end{cases}
+\qquad j=1,\dots ,N-1
+\]
+
+\[
+\phi_j'(x)=
+\begin{cases}
+\dfrac1{\Delta x}, & x_{j-1}<x<x_j,\\[6pt]
+-\dfrac1{\Delta x}, & x_j<x<x_{j+1},\\[6pt]
+0, & \text{otherwise}.
+\end{cases}
+\]
+
+\subsection*{Approximation}
+
+\[
+\tilde u(x)=\sum_{j=1}^{N-1}c_j\phi_j(x).
+\]
+
+\bigskip
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Part (a)}
+
+\[
+u''+u'=5,\qquad u(0)=u(1)=0.
+\]
+
+\subsection*{Inner products}
+
+\vspace{-2ex}
+\[
+\int_0^1\phi_i'(x)\phi_j'(x)\,dx=
+\begin{cases}
+\dfrac{2}{\Delta x}, & i=j,\\[6pt]
+-\dfrac{1}{\Delta x}, & |i-j|=1,\\[6pt]
+0, & \text{otherwise};
+\end{cases}
+\]
+
+\[
+\int_0^1\phi_i(x)\phi_j'(x)\,dx=
+\begin{cases}
+1, & i=j,\\[6pt]
+-\dfrac12, & |i-j|=1,\\[6pt]
+0, & \text{otherwise};
+\end{cases}
+\]
+
+\[
+\int_0^1\phi_i(x)\,5\,dx=5\Delta x,\qquad i=1,\dots ,N-1.
+\]
+
+\subsection*{Matrices and vector}
+
+\[
+K_{ij}=\int_0^1\phi_i'(x)\phi_j'(x)\,dx,\qquad
+M_{ij}=\int_0^1\phi_i(x)\phi_j'(x)\,dx,\qquad
+F_i=\int_0^1\phi_i(x)\,5\,dx.
+\]
+
+\[
+K=\frac1{\Delta x}
+\begin{bmatrix}
+ 2&-1& 0&\dots &0\\
+-1& 2&-1&\dots &0\\
+ 0&-1& 2&\dots &0\\
+\vdots&\vdots&\vdots&\ddots&-1\\
+ 0& 0& 0&-1& 2
+\end{bmatrix}_{(N-1)\times(N-1)},
+\quad
+M=
+\begin{bmatrix}
+ 1&-\tfrac12&0&\dots &0\\
+-\tfrac12&1&-\tfrac12&\dots &0\\
+0&-\tfrac12&1&\dots &0\\
+\vdots&\vdots&\vdots&\ddots&-\tfrac12\\
+0&0&0&-\tfrac12&1
+\end{bmatrix},
+\quad
+F=5\Delta x\,\mathbf 1.
+\]
+
+\subsection*{Linear system}
+
+\[
+(-K+M)c=F,\qquad c\in\mathbb R^{N-1}.
+\]
+
+\subsection*{Exact solution}
+
+\[
+u_{\mathrm{exact}}(x)=\frac{5}{1-e^{-1}}\bigl(-1+e^{-x}\bigr)+5x.
+\]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Part (b)}
+
+\[
+u''+u'=5,\qquad u'(0)=0,\;u(1)=0.
+\]
+
+\subsection*{Modified inner products}
+
+First basis function has support on $(0,x_1)$ only on the left side in the weak form with Neumann condition.
+
+\[
+\int_0^1\phi_i'(x)\phi_j'(x)\,dx=
+\begin{cases}
+\dfrac{1}{\Delta x}, & i=j=1,\\[6pt]
+\dfrac{2}{\Delta x}, & i=j=2,\dots ,N-1,\\[6pt]
+-\dfrac{1}{\Delta x}, & |i-j|=1,\\[6pt]
+0, & \text{otherwise};
+\end{cases}
+\]
+
+\[
+\int_0^1\phi_i(x)\phi_j'(x)\,dx=
+\begin{cases}
+\dfrac12, & i=j=1,\\[6pt]
+1, & i=j=2,\dots ,N-1,\\[6pt]
+-\dfrac12, & |i-j|=1,\\[6pt]
+0, & \text{otherwise};
+\end{cases}
+\]
+
+\[
+\int_0^1\phi_1(x)\,5\,dx=\tfrac32\cdot5\Delta x,\qquad
+\int_0^1\phi_i(x)\,5\,dx=5\Delta x,\;i=2,\dots ,N-1.
+\]
+
+\subsection*{Matrices and vector}
+
+\[
+\widehat K_{11}=\frac1{\Delta x},\quad
+\widehat M_{11}=\frac12,\quad
+\widehat F_1=\frac32\cdot5\Delta x;
+\]
+remaining rows/columns identical to those of $K$, $M$, $F$ in part (a).
+
+\subsection*{Linear system}
+
+\[
+(-\widehat K+\widehat M)c=\widehat F.
+\]
+
+\subsection*{Exact solution}
+
+\[
+u_{\mathrm{exact}}(x)= -5e^{-1}-5+5e^{-x}+5x.
+\]
+
+\newpage
+
+\section*{MATLAB Code}
+
+\lstset{
+    language=Matlab,
+    basicstyle=\ttfamily\footnotesize,
+    keywordstyle=\color{blue},
+    commentstyle=\color{gray},
+    stringstyle=\color{red},
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    stepnumber=1,
+    numbersep=5pt,
+    frame=single,
+    breaklines=true,
+    showstringspaces=false
+}
+
+\begin{tcolorbox}[title=Piecewise‐linear FEM MATLAB Code]
+\begin{lstlisting}
+clc; clear;
+nElem = 199;                 
+fVal  = 5;                   
+x  = linspace(0,1,nElem+1).';
+dx = x(2)-x(1);
+N  = numel(x);
+
+e  = ones(nElem-1,1);
+K  = spdiags([-e  2*e  -e],[-1 0 1],nElem-1,nElem-1)/dx;
+M  = spdiags([-0.5*e  e  -0.5*e],[-1 0 1],nElem-1,nElem-1);
+
+A  = -K + M;                       
+F  = fVal*dx*ones(nElem-1,1);      
+
+c  = A\F;                          
+u          = zeros(N,1);           
+u(2:end-1) = c;
+
+uExact = 5*x + (5/(1-exp(-1)))*(exp(-x)-1);
+
+errInf = max(abs(u-uExact));
+errL2  = sqrt( trapz(x,(u-uExact).^2) );
+fprintf('max-norm error = %.4e\n',errInf);
+fprintf('L2-norm  error = %.4e\n',errL2);
+
+figure
+plot(x,u,x,uExact,'r','LineWidth',1.8)
+legend('FEM','Exact','Location','best')
+xlabel('x'); ylabel('u(x)')
+title(sprintf('Piecewise-linear FEM   (N = %d elements)',nElem))
+grid on
+\end{lstlisting}
+\end{tcolorbox}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{image1.jpg}
+    \caption{FEM Approximation vs. Exact Solution for $u'' + u' = 5$}
+    \label{fig:fem_solution}
+\end{figure}
+
+\newpage
+
+\section*{MATLAB Code}
+
+\lstset{
+    language=Matlab,
+    basicstyle=\ttfamily\footnotesize,
+    keywordstyle=\color{blue},
+    commentstyle=\color{gray},
+    stringstyle=\color{red},
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    stepnumber=1,
+    numbersep=5pt,
+    frame=single,
+    breaklines=true,
+    showstringspaces=false
+}
+
+\begin{tcolorbox}[title=Finite Element Method (Piecewise Linear Basis)]
+\begin{lstlisting}
+clc
+clear
+u0=0; 
+u1=0; 
+f=5; 
+a=0; 
+b=1; 
+x=linspace(a,b,200); 
+N=length(x); 
+dx=(b-a)/(N-1);
+u=zeros(1,N);
+u(1)=u0;
+u(N)=u1;
+
+G=zeros(N-2,N-2); 
+for i=1:N-2
+    if i==1
+        G(i,i)=-1/dx;
+    else
+        G(i,i)=-2/dx;
+    end
+    if i<N-2
+        G(i,i+1)=1/dx;
+    end
+    if i>1
+        G(i,i-1)=1/dx;
+    end
+end
+
+S=zeros(N-2,N-2); 
+for i=1:N-2
+    if i==1
+        S(i,i)=0.5;
+    else
+        S(i,i)=1;
+    end
+    if i<N-2
+        S(i,i+1)=-0.5;
+    end
+    if i>1
+        S(i,i-1)=-0.5;
+    end
+end
+
+F=zeros(N-2,1);
+F=dx*f+F;
+F(1)=0.5*dx*f+F(1);
+A=G+S;
+C=A\F;
+
+for i=2:N-1
+    u(i)=C(i-1);
+end
+
+u(1)=u(2);
+
+for i=1:N
+    y(i)=5*(x(i)+exp(-x(i))-exp(-1)-1);
+end
+
+figure(1) 
+plot(x,u,x,y,'red','linewidth',2)
+title('BVP Exact and Finit Elemnt Solution', 'FontSize', 16);
+xlabel('x', 'FontSize', 14);
+ylabel('u', 'FontSize', 14);
+\end{lstlisting}
+\end{tcolorbox}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{image2.jpg}
+    \caption{BVP Exact and Finit Elemnt Solution for $u'' + u' = 5$}
+    \label{fig:fem_solution}
+\end{figure}
+
+\newpage
+
+\section*{Problem 5}
+
+Given boundary value problem:
+\[
+x^2 y'' - x y' + (\pi^2 + 1)y = 0, \quad 1 \leq x \leq 2,
+\]
+\[
+y(1) = 0, \quad y(2) = 2 \sin(\pi \ln 2), \quad y(2) = 1.643.
+\]
+
+\subsection*{Solution}
+
+Domain subdivision:
+\[
+x_i = a + \frac{i}{N} (b - a), \quad i = 0, 1, \dots, N,
+\]
+where $a = 1$, $b = 2$, so
+\[
+x_i = 1 + \frac{i}{N}.
+\]
+
+\subsection*{Basis Functions}
+
+Define hat functions:
+\[
+\varphi_j (x) =
+\begin{cases}
+N \left( x - \frac{j-1}{N} \right), & \frac{j-1}{N} < x < \frac{j}{N}, \\
+N \left( \frac{j+1}{N} - x \right), & \frac{j}{N} < x < \frac{j+1}{N}, \\
+0, & \text{otherwise}.
+\end{cases}
+\]
+for $j = 1, 2, \dots, N-1$.
+
+\subsection*{Piecewise Linear Approximate Solution}
+
+\[
+\tilde{u}(x) = \sum_{j=1}^{N-1} c_j \varphi_j(x).
+\]
+
+\subsection*{Weak Formulation}
+
+Given equation:
+\[
+x^2 y'' - x y' + (\pi^2 + 1)y = 0,
+\]
+Multiply by test function $w$:
+\[
+\int_1^2 x^2 w y'' \, dx - \int_1^2 x w y' \, dx + \int_1^2 (\pi^2 + 1) w y \, dx = 0.
+\]
+Integrate by parts:
+\[
+\int_1^2 -x^2 w' y' \, dx + \left[ x^2 w y' \right]_1^2 - \int_1^2 x w y' \, dx + \int_1^2 (\pi^2 + 1) w y \, dx = 0.
+\]
+Boundary term:
+\[
+\left[ x^2 w y' \right]_1^2 = x^2 w y' \bigg|_1^2.
+\]
+Global system:
+\[
+\int_1^2 x^2 w' y' \, dx + \int_1^2 x w y' \, dx + \int_1^2 (\pi^2 + 1) w y \, dx = 0.
+\]
+
+\subsection*{Elemental Contribution}
+
+For each element $[x_j, x_{j+1}]$:
+\[
+\int_{x_j}^{x_{j+1}} x^2 \varphi_i' \varphi_j' \, dx + \int_{x_j}^{x_{j+1}} x \varphi_i \varphi_j' \, dx + \int_{x_j}^{x_{j+1}} (\pi^2 + 1) \varphi_i \varphi_j \, dx.
+\]
+
+Element stiffness matrix $K_{ij}$ and load vector $F_i$ formed by these integrals using Galerkin method.
+
+\subsection*{Exact Solution}
+
+\[
+y(x) = 62.5 \, x \sin(2.5 \ln x).
+\]
+
+\subsection*{MATLAB Code to Compare Solutions}
+
+\lstset{
+    language=Matlab,
+    basicstyle=\ttfamily\footnotesize,
+    keywordstyle=\color{blue},
+    commentstyle=\color{gray},
+    stringstyle=\color{red},
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    stepnumber=1,
+    numbersep=5pt,
+    frame=single,
+    breaklines=true,
+    showstringspaces=false
+}
+
+\begin{tcolorbox}[title=Finite Element Method (Piecewise Linear Basis)]
+\begin{lstlisting}
+clc; clear;
+N = 50;
+h = 1 / N;
+x = linspace(1, 2, N+1);
+y1 = 0;
+y2 = 2 * sin(pi * log(2));
+a = zeros(1, N-1);
+b = zeros(1, N-1);
+c = zeros(1, N-1);
+for i = 1:N-1
+    xi = x(i);
+    a(i) = 1/h^2 + xi / ((1 + xi^2) * h);
+    b(i) = -2 / h^2;
+    c(i) = 1/h^2 - xi / ((1 + xi^2) * h);
+end
+d = -1 ./ (1 + x.^2);
+f = zeros(1, N-1);
+f(1) = d(2) + y1 * ( -x(1) / ((1 + x(1)^2) * h) - 1/h^2 );
+for i = 2:N-2
+    f(i) = d(i+1);
+end
+f(N-1) = d(N) + y2 * ( x(N-1) / ((1 + x(N-1)^2) * h) - 1/h^2 );
+b1 = b;
+f1 = f;
+for i = 2:N-1
+    m = a(i) / b1(i-1);
+    b1(i) = b1(i) - c(i-1) * m;
+    f1(i) = f1(i) - f1(i-1) * m;
+end
+u = zeros(1, N-1);
+u(N-1) = f1(N-1) / b1(N-1);
+for i = N-2:-1:1
+    u(i) = (f1(i) - c(i) * u(i+1)) / b1(i);
+end
+y_approx = [y1, u, y2];
+y_exact = x .* sin(pi * log(x));
+error = abs(y_approx - y_exact);
+figure;
+plot(x, y_approx, '-.b', x, y_exact, 'r', x, error, '--k', 'LineWidth', 2);
+title('BVP Exact and Finite Element Solution', 'FontSize', 16);
+xlabel('x', 'FontSize', 14);
+ylabel('y', 'FontSize', 14);
+legend('FEM Approximation', 'Exact Solution', 'Error');
+grid on;
+\end{lstlisting}
+\end{tcolorbox}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{image3.jpg}
+    \caption{BVP Exact and Finit Elemnt Solution for $u'' + u' = 5$}
+    \label{fig:fem_solution}
+\end{figure}
+
+\end{document}
