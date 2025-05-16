@@ -33,77 +33,82 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 1.  Trial space and approximate solution
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \section*{Problem 1}
 
-Given the boundary value problem:
+\vspace{0.5em}
+\textbf{Continuous problem}
 \[
 \begin{cases}
-x^2 y'' + 4x y' + 2y = -2 \ln x, \quad 1 \leq x \leq 2 \\
-y(1) = -0.5 \\
-y(2) = \ln 2
+x^{2}y''+4xy'+2y=-2\ln x, & 1\le x\le 2,\\
+y(1)=-0.5,\\
+y(2)=\ln 2.
 \end{cases}
 \]
 
-Using finite difference approximation with step size:
+\textbf{Grid}
 \[
-h = \frac{2 - 1}{N} = \frac{1}{N}
+h=\dfrac{1}{N}, 
+\qquad
+x_i=1+(i-1)h,\; i=1,\dots,N+1.
 \]
 
-Discretizing the domain:
+\textbf{Central differences}
 \[
-x_i = 1 + (i-1)h, \quad i = 1, 2, \dots, N+1
+y'_i=\dfrac{y_{i+1}-y_{i-1}}{2h},
+\qquad
+y''_i=\dfrac{y_{i+1}-2y_i+y_{i-1}}{h^{2}}.
 \]
 
-First derivative approximation:
+\textbf{Discrete equation at node \(i\) \((i=2,\dots,N)\)}
 \[
-y'_i \approx \frac{y_{i+1} - y_{i-1}}{2h}
+\left(\frac{x_i^{2}}{h^{2}}+\frac{2x_i}{h}\right)y_{i+1}
++\left(-2\frac{x_i^{2}}{h^{2}}+2\right)y_{i}
++\left(\frac{x_i^{2}}{h^{2}}-\frac{2x_i}{h}\right)y_{i-1}
+=-2\ln x_i.
 \]
 
-Second derivative approximation:
+\textbf{Coefficient notation}
 \[
-y''_i \approx \frac{y_{i+1} - 2y_i + y_{i-1}}{h^2}
+a_i=\frac{x_i^{2}}{h^{2}}-\frac{2x_i}{h},\quad
+b_i=-2\frac{x_i^{2}}{h^{2}}+2,\quad
+c_i=\frac{x_i^{2}}{h^{2}}+\frac{2x_i}{h},\quad
+d_i=-2\ln x_i.
 \]
 
-Substituting into the ODE at node $i$:
+\textbf{Interior stencil}
 \[
-x_i^2 \left( \frac{y_{i+1} - 2y_i + y_{i-1}}{h^2} \right) + 4x_i \left( \frac{y_{i+1} - y_{i-1}}{2h} \right) + 2y_i = -2\ln x_i
+a_i\,y_{i-1}+b_i\,y_i+c_i\,y_{i+1}=d_i,\quad i=2,\dots,N.
 \]
 
-Rewriting:
+\textbf{Boundary values}
 \[
-\frac{x_i^2}{h^2} y_{i+1} - 2\frac{x_i^2}{h^2} y_i + \frac{x_i^2}{h^2} y_{i-1} + \frac{2x_i}{h} y_{i+1} - \frac{2x_i}{h} y_{i-1} + 2y_i = -2\ln x_i
+y_1=-0.5,\qquad y_{N+1}=\ln 2.
 \]
 
-Rearranged:
+\textbf{Linear system}
 \[
-\left( \frac{x_i^2}{h^2} + \frac{2x_i}{h} \right) y_{i+1} + \left( -2\frac{x_i^2}{h^2} + 2 \right) y_i + \left( \frac{x_i^2}{h^2} - \frac{2x_i}{h} \right) y_{i-1} = -2\ln x_i
-\]
-
-Final discretized form:
-\[
-\left( \frac{x_i^2}{h^2} + \frac{2x_i}{h} \right) y_{i+1} + \left( -2\frac{x_i^2}{h^2} + 2 \right) y_i + \left( \frac{x_i^2}{h^2} - \frac{2x_i}{h} \right) y_{i-1} = -2\ln x_i
-\]
-
-Vector form:
-\[
-A \mathbf{y} = \mathbf{b}
-\]
-
-Where:
-\[
-A = \text{tridiagonal matrix with coefficients as above}
-\]
-\[
-\mathbf{b} = \text{column vector with entries } -2 \ln x_i
-\]
-
-Boundary conditions:
-\[
-y_1 = -0.5
-\]
-\[
-y_{N+1} = \ln 2
+\underbrace{
+\begin{bmatrix}
+b_{2} & c_{2} & 0 & \cdots & 0 \\
+a_{3} & b_{3} & c_{3} & \ddots & \vdots \\
+0 & \ddots & \ddots & \ddots & 0 \\
+\vdots & \ddots & a_{N-1} & b_{N-1} & c_{N-1}\\
+0 & \cdots & 0 & a_{N} & b_{N}
+\end{bmatrix}}_{\displaystyle A\in\mathbb{R}^{N-1\times N-1}}
+%
+\underbrace{
+\begin{bmatrix}
+y_{2}\\ y_{3}\\ \vdots\\ y_{N-1}\\ y_{N}
+\end{bmatrix}}_{\displaystyle \mathbf y}
+=
+\underbrace{
+\begin{bmatrix}
+d_{2}-a_{2}y_{1}\\
+d_{3}\\
+\vdots\\
+d_{N-1}\\
+d_{N}-c_{N}y_{N+1}
+\end{bmatrix}}_{\displaystyle \mathbf b}.
 \]
 
 \section*{MATLAB Code}
@@ -145,49 +150,72 @@ end
 
 \section*{Problem 2}
 
-Given:
+\paragraph{Continuous model}
 \[
-T(0,t) = \sin(\pi t)
-\]
-\[
-T(L,t) = \sin(2\pi t)
-\]
-\[
-T(x,0) = 0
+T_t=c^{2}T_{xx}, \qquad c^{2}=3,\; 0\le x\le L=2,\; t\ge0.
 \]
 
-Heat equation:
 \[
-T_t(x,t) = c^2 T_{xx}(x,t), \quad c^2 = 3, \quad 0 \leq x \leq 2, \quad t \geq 0
+T(0,t)=\sin(\pi t), \qquad
+T(L,t)=\sin(2\pi t), \qquad
+T(x,0)=0.
 \]
 
-Discretization parameters:
+\paragraph{Grid}
 \[
-\Delta x = 0.2, \quad \Delta t = 0.25
+\Delta x=0.2,\quad x_i=i\Delta x,\; i=0,\dots,n+1,\; n=\tfrac{L}{\Delta x}-1=9.
 \]
 \[
-r = \frac{c^2 \Delta t}{\Delta x^2} = \frac{3 \times 0.25}{0.2^2} = 18.75
+\Delta t=0.25,\quad t_j=j\Delta t,\; j=0,\dots,m,\; m=\tfrac{10}{\Delta t}=40.
+\]
+\[
+r=\frac{c^{2}\Delta t}{\Delta x^{2}}
+     =\frac{3\times0.25}{0.2^{2}}
+     =18.75.
+\]
+\emph{Remark:}\; CN is unconditionally stable, so the large value of \(r\) is allowed, but accuracy improves if \(\Delta x\) is reduced.
+
+\paragraph{Interior stencil (\(1\le i\le n,\,0\le j\le m-1\))}
+\[
+(1+r)T_i^{j+1}-\frac{r}{2}T_{i+1}^{j+1}-\frac{r}{2}T_{i-1}^{j+1}
+=(1-r)T_i^{j}+\frac{r}{2}T_{i+1}^{j}+\frac{r}{2}T_{i-1}^{j}.
 \]
 
-Number of nodes in space:
+\paragraph{Coefficients}
 \[
-n = \frac{L}{\Delta x} - 1 = 9
+a=-\frac{r}{2},\qquad b=1+r,\qquad c=-\frac{r}{2}.
 \]
 
-Number of time steps:
+\paragraph{Linear system at each step}
 \[
-m = \frac{t_f}{\Delta t} = \frac{10}{0.25} = 40
+A\mathbf T^{\,j+1}=\mathbf B^{j},
+\]
+\[
+A=
+\begin{bmatrix}
+b & c & 0 & \cdots & 0\\
+a & b & c & \ddots & \vdots\\
+0 & \ddots & \ddots & \ddots & 0\\
+\vdots & \ddots & a & b & c\\
+0 & \cdots & 0 & a & b
+\end{bmatrix}_{n\times n}.
 \]
 
-Crank-Nicolson scheme discretization:
 \[
-\frac{T_i^{j+1} - T_i^j}{\Delta t} = \frac{c^2}{2} \left( \frac{T_{i+1}^j - 2T_i^j + T_{i-1}^j}{\Delta x^2} + \frac{T_{i+1}^{j+1} - 2T_i^{j+1} + T_{i-1}^{j+1}}{\Delta x^2} \right)
+\mathbf B^{j}=a\mathbf T^{j-1}+ (b-2r)\mathbf T^{j}+c\mathbf T^{j+1}
+ +\begin{bmatrix}
+ a\bigl[T_0^{j}+T_0^{\,j+1}\bigr]\\[2pt]
+ 0\\ \vdots \\ 0\\[2pt]
+ c\bigl[T_{n+1}^{j}+T_{n+1}^{\,j+1}\bigr]
+ \end{bmatrix}.
 \]
 
-Rearranged to matrix form:
+\paragraph{Boundary values inserted every step}
 \[
-A \mathbf{T}^{j+1} = \mathbf{B}^j
+T_0^{\,j}=\sin(\pi t_j),\qquad
+T_{n+1}^{\,j}=\sin(2\pi t_j).
 \]
+
 
 \section*{MATLAB Code}
 
@@ -490,13 +518,6 @@ u_k(x)=\sum_{j=1}^{N}c^{(k)}_j\phi_j(x).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 9. Brief comments
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\begin{itemize}
-\item $G$ encodes the $L^2$ inner product on the trial space.  
-\item $S$ originates from the weak form of $u''$ after one integration by parts.  
-\item Convergence: eigenvalues approach $(k\pi)^2$ and eigenfunctions $\sin(k\pi x)$ as $N\to\infty$.  
-\item Orthogonality with respect to $G$ replaces continuous $L^2$ orthogonality.  
-\end{itemize}
 
 \section*{MATLAB Code}
 
